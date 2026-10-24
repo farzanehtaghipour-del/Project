@@ -1,0 +1,495 @@
+/* ============================================================================
+   pp-support.css — استایل «من هم مهمم» (حمایت عاطفی مادر — فضای «مراقبت من»)
+   ----------------------------------------------------------------------------
+   فقط استایل‌های بخش جدید؛ از متغیرهای تمِ همراه مادر (--pp-*) استفاده می‌کند
+   و داخل گرهٔ #ppHost (کلاس .pp) اعمال می‌شود. هیچ استایل سراسریِ دیگری را
+   تغییر نمی‌دهد.
+   [۲٫۵] بخش اکنون صفحهٔ اصلی تب «مراقبت من» است (به‌جای بالای تب «امروز»)،
+   پس فاصلهٔ بالای آن صفر می‌شود تا با اولین بخش بقیهٔ تب‌ها هم‌راستا باشد.
+   ============================================================================ */
+.pp-support{margin-top:0}
+.pp-support .pp-sec-head .pp-ic{background:var(--pp-lilac-s);color:var(--pp-lilac-d)}
+
+/* «یک همراهی کوچک برای امروز» */
+.pp-sup-daily{
+  position:relative;border-radius:16px;padding:13px 15px;margin-bottom:12px;
+  background:linear-gradient(150deg,color-mix(in srgb,var(--pp-lilac) 12%,var(--pp-paper)) 0%,var(--pp-paper) 62%);
+  border:1px solid color-mix(in srgb,var(--pp-lilac) 26%,transparent);box-shadow:var(--pp-sh-s)}
+.pp-sup-daily-head{display:flex;align-items:center;gap:10px;margin-bottom:7px}
+.pp-sup-daily-ic{flex:none;width:32px;height:32px;border-radius:11px;display:grid;place-items:center;
+  background:var(--pp-lilac-s);color:var(--pp-lilac-d)}
+.pp-sup-daily-ic svg{width:16px;height:16px}
+.pp-sup-daily-head b{display:block;font-size:13px;font-weight:800;color:var(--pp-ink);line-height:1.5}
+.pp-sup-daily-head i{display:block;font-style:normal;font-size:10.5px;color:var(--pp-lilac-d);font-weight:700}
+.pp-sup-daily p{font-size:12.5px;color:var(--pp-ink2);line-height:2}
+.pp-sup-daily-link{
+  margin-top:8px;display:inline-flex;align-items:center;gap:6px;border:0;background:none;cursor:pointer;
+  font:inherit;font-size:11.5px;font-weight:700;color:var(--pp-lilac-d);padding:0}
+.pp-sup-daily-link svg{width:13px;height:13px}
+.pp-sup-daily-link:hover{text-decoration:underline;text-underline-offset:3px}
+
+/* چهار کارت اصلی */
+.pp-sup-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.pp-sup-card{
+  position:relative;text-align:start;font:inherit;cursor:pointer;border-radius:16px;padding:14px;
+  display:flex;flex-direction:column;gap:9px;transition:.28s var(--pp-ease);overflow:hidden;
+  background:var(--pp-paper);border:1px solid var(--pp-line);box-shadow:var(--pp-sh-s)}
+.pp-sup-card:hover{transform:translateY(-2px);box-shadow:var(--pp-sh)}
+.pp-sup-card-ic{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;color:#fff}
+.pp-sup-card-ic svg{width:17px;height:17px}
+.pp-sup-card-b b{display:block;font-size:13px;font-weight:800;color:var(--pp-ink);line-height:1.6}
+.pp-sup-card-b i{display:block;font-style:normal;font-size:11px;color:var(--pp-ink3);line-height:1.85;margin-top:2px}
+.pp-sup-card-arrow{position:absolute;inset-inline-end:12px;top:14px;color:var(--pp-ink3);opacity:.6}
+.pp-sup-card-arrow svg{width:14px;height:14px}
+.pp-sup-card.sup-pink{border-color:color-mix(in srgb,var(--pp-pink) 32%,transparent);
+  background:linear-gradient(150deg,color-mix(in srgb,var(--pp-pink) 9%,var(--pp-paper)) 0%,var(--pp-paper) 64%)}
+.pp-sup-card.sup-pink .pp-sup-card-ic{background:linear-gradient(135deg,var(--pp-pink),var(--pp-pink-d))}
+.pp-sup-card.sup-blue{border-color:color-mix(in srgb,var(--pp-blue) 32%,transparent);
+  background:linear-gradient(150deg,color-mix(in srgb,var(--pp-blue) 9%,var(--pp-paper)) 0%,var(--pp-paper) 64%)}
+.pp-sup-card.sup-blue .pp-sup-card-ic{background:linear-gradient(135deg,var(--pp-blue),var(--pp-blue-d))}
+.pp-sup-card.sup-lilac{border-color:color-mix(in srgb,var(--pp-lilac) 32%,transparent);
+  background:linear-gradient(150deg,color-mix(in srgb,var(--pp-lilac) 9%,var(--pp-paper)) 0%,var(--pp-paper) 64%)}
+.pp-sup-card.sup-lilac .pp-sup-card-ic{background:linear-gradient(135deg,var(--pp-lilac),var(--pp-lilac-d))}
+.pp-sup-card.sup-orange{border-color:color-mix(in srgb,var(--pp-orange) 32%,transparent);
+  background:linear-gradient(150deg,color-mix(in srgb,var(--pp-orange) 9%,var(--pp-paper)) 0%,var(--pp-paper) 64%)}
+.pp-sup-card.sup-orange .pp-sup-card-ic{background:linear-gradient(135deg,var(--pp-orange),var(--pp-orange-d))}
+
+/* شیت */
+.pp-supsheet .pp-sheet-top{background:linear-gradient(150deg,var(--pp-lilac-s),var(--pp-paper));border-bottom-color:color-mix(in srgb,var(--pp-lilac) 24%,transparent)}
+.pp-sup-sheet-ic{flex:none;width:30px;height:30px;border-radius:10px;display:grid;place-items:center;color:var(--pp-lilac-d);background:var(--pp-lilac-s)}
+.pp-sup-sheet-ic svg{width:15px;height:15px}
+.pp-sup-lead{font-size:12.8px;color:var(--pp-ink2);line-height:2;margin-bottom:9px}
+.pp-sup-hint{font-size:11.5px;color:var(--pp-ink3);line-height:1.9;margin-bottom:11px}
+.pp-sup-topics{display:flex;flex-direction:column;gap:7px}
+.pp-sup-topic{
+  display:flex;align-items:center;gap:9px;text-align:start;font:inherit;cursor:pointer;
+  border:1px solid var(--pp-line);background:var(--pp-paper);border-radius:14px;padding:12px 14px;
+  transition:.22s var(--pp-ease)}
+.pp-sup-topic:hover{border-color:var(--pp-lilac);background:var(--pp-lilac-s)}
+.pp-sup-topic b{flex:1;font-size:12.8px;font-weight:700;color:var(--pp-ink);line-height:1.7}
+.pp-sup-topic svg{width:14px;height:14px;color:var(--pp-ink3);flex:none}
+/* [۲٫۴] رنگ هاور و آیکون هر بخش از پالت خود بخش (فهرست متنی) */
+.pp-sup-topics[data-tone="sad"] .pp-sup-topic:hover{border-color:color-mix(in srgb,var(--pp-blue) 55%,transparent);background:var(--pp-blue-s)}
+.pp-sup-topics[data-tone="sad"] .pp-sup-topic svg:first-child{color:var(--pp-blue-d)}
+.pp-sup-topics[data-tone="doubt"] .pp-sup-topic:hover{border-color:color-mix(in srgb,var(--pp-lilac) 55%,transparent);background:var(--pp-lilac-s)}
+.pp-sup-topics[data-tone="doubt"] .pp-sup-topic svg:first-child{color:var(--pp-lilac-d)}
+.pp-sup-topics[data-tone="body"] .pp-sup-topic:hover{border-color:color-mix(in srgb,var(--pp-orange) 55%,transparent);background:var(--pp-orange-s)}
+.pp-sup-topics[data-tone="body"] .pp-sup-topic svg:first-child{color:var(--pp-orange-d)}
+.pp-sup-back{
+  display:inline-flex;align-items:center;gap:6px;border:0;background:none;cursor:pointer;font:inherit;
+  font-size:11.5px;font-weight:700;color:var(--pp-lilac-d);padding:0;margin-bottom:10px}
+.pp-sup-back svg{width:13px;height:13px}
+.pp-sup-back:hover{text-decoration:underline;text-underline-offset:3px}
+.pp-sup-title{font-size:16px;font-weight:800;color:var(--pp-ink);margin:2px 0 8px;line-height:1.6}
+.pp-sup-block{background:var(--pp-paper);border:1px solid var(--pp-line);border-radius:14px;padding:12px 14px;margin-bottom:9px}
+.pp-sup-block h4{margin:0 0 6px;font-size:12.3px;font-weight:800;color:var(--pp-ink);display:flex;align-items:center;gap:7px}
+.pp-sup-block h4 svg{width:14px;height:14px;flex:none}
+.pp-sup-block p{font-size:12.3px;color:var(--pp-ink2);line-height:2}
+.pp-sup-block.sup-exp h4 svg{color:var(--pp-blue-d)}
+.pp-sup-block.sup-reframe{background:linear-gradient(150deg,var(--pp-lilac-s),var(--pp-paper));border-color:color-mix(in srgb,var(--pp-lilac) 26%,transparent)}
+.pp-sup-block.sup-reframe h4 svg{color:var(--pp-lilac-d)}
+.pp-sup-block.sup-action{background:linear-gradient(150deg,var(--pp-sage-s),var(--pp-paper));border-color:color-mix(in srgb,var(--pp-pink) 26%,transparent)}
+.pp-sup-block.sup-action h4 svg{color:var(--pp-pink-d)}
+.pp-sup-block.sup-reflect h4 svg{color:var(--pp-gold-d)}
+.pp-sup-block.sup-next{background:linear-gradient(150deg,var(--pp-rose-s),var(--pp-paper));border-color:color-mix(in srgb,var(--pp-danger) 30%,transparent)}
+.pp-sup-block.sup-next h4{color:var(--pp-danger-d)}
+.pp-sup-block.sup-next h4 svg{color:var(--pp-danger-d)}
+.pp-sup-acts{display:flex;gap:7px;flex-wrap:wrap;margin-top:6px}
+.pp-sup-src{margin-top:10px;font-size:11px;color:var(--pp-ink3)}
+.pp-sup-src a{color:var(--pp-teal);text-decoration:underline;text-underline-offset:3px;word-break:break-word}
+
+/* دفترچهٔ شخصی */
+.pp-sup-prompts{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.pp-sup-prompts .pp-chip{font-size:11px}
+.pp-sup-textarea{
+  width:100%;min-height:110px;resize:vertical;font:inherit;font-size:12.8px;color:var(--pp-ink);
+  border:1px solid var(--pp-line2);border-radius:13px;padding:12px 13px;background:var(--pp-paper);line-height:2}
+.pp-sup-textarea:focus{outline:0;border-color:var(--pp-lilac);box-shadow:0 0 0 4px var(--pp-lilac-s)}
+.pp-sup-jlist{margin-top:14px;display:flex;flex-direction:column;gap:9px}
+.pp-sup-jitem{background:var(--pp-cream);border:1px solid var(--pp-line);border-radius:14px;padding:12px 13px}
+.pp-sup-jitem-top{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:5px}
+.pp-sup-jitem-top span{font-size:11px;font-weight:700;color:var(--pp-lilac-d)}
+.pp-sup-jitem-top time{font-size:10px;color:var(--pp-ink3);flex:none}
+.pp-sup-jitem p{font-size:12.3px;color:var(--pp-ink2);line-height:2;white-space:pre-wrap;word-break:break-word}
+.pp-sup-jitem-acts{display:flex;gap:7px;margin-top:9px}
+.pp-sup-del{color:var(--pp-danger-d)}
+.pp-sup-del:hover{border-color:var(--pp-danger);color:var(--pp-danger-d)}
+.pp-sup-privacy{margin-top:14px;font-size:11px;color:var(--pp-ink3);display:flex;gap:8px;align-items:flex-start;line-height:1.9}
+.pp-sup-privacy svg{flex:none;margin-top:4px;width:13px;height:13px;color:var(--pp-ink3)}
+
+/* شب */
+.pp.pp-night .pp-sup-daily{background:linear-gradient(150deg,rgba(179,148,227,.14),rgba(46,40,49,.86) 62%)}
+.pp.pp-night .pp-sup-card{background:rgba(46,40,49,.86)}
+.pp.pp-night .pp-sup-topic{background:rgba(46,40,49,.86)}
+.pp.pp-night .pp-sup-block{background:rgba(46,40,49,.86)}
+.pp.pp-night .pp-sup-textarea{background:rgba(46,40,49,.86);color:var(--pp-ink)}
+
+/* موبایل */
+@media (max-width:560px){
+  .pp-sup-grid{grid-template-columns:1fr 1fr;gap:8px}
+  .pp-sup-card{padding:12px}
+  .pp-sup-card-b i{display:none}
+}
+
+/* ==========================================================================
+   v2 — شخصی‌سازی، ورود با حال، پیوستگی، سه سطح ایمنی، صدا، جدول
+   ========================================================================== */
+
+/* «این را برای تو می‌نویسم» */
+.pp-sup-personal{
+  display:flex;gap:11px;align-items:flex-start;border-radius:16px;padding:12px 14px;margin-bottom:10px;
+  background:linear-gradient(150deg,color-mix(in srgb,var(--pp-gold) 10%,var(--pp-paper)),var(--pp-paper) 68%);
+  border:1px solid color-mix(in srgb,var(--pp-gold) 28%,transparent)}
+.pp-sup-personal-ic{flex:none;width:30px;height:30px;border-radius:10px;display:grid;place-items:center;
+  background:var(--pp-gold-s);color:var(--pp-gold-d)}
+.pp-sup-personal-ic svg{width:15px;height:15px}
+.pp-sup-personal b{display:block;font-size:12.5px;font-weight:800;color:var(--pp-ink);margin-bottom:2px}
+.pp-sup-personal p{font-size:12.3px;color:var(--pp-ink2);line-height:1.95}
+
+/* ورود سریع با حال */
+.pp-sup-states{margin-bottom:11px}
+.pp-sup-states-q{margin:0 0 7px;font-size:12px;font-weight:700;color:var(--pp-ink2)}
+.pp-sup-states-row{display:flex;flex-wrap:wrap;gap:6px}
+.pp-sup-state{
+  display:inline-flex;align-items:center;gap:6px;font:inherit;font-size:11.5px;font-weight:700;cursor:pointer;
+  border:1px solid var(--pp-line2);background:var(--pp-paper);color:var(--pp-ink2);border-radius:999px;
+  padding:7px 12px;transition:.2s var(--pp-ease)}
+.pp-sup-state:hover{border-color:var(--pp-lilac);color:var(--pp-lilac-d);background:var(--pp-lilac-s)}
+.pp-sup-state-ic{display:grid;place-items:center}
+.pp-sup-state-ic svg{width:13px;height:13px}
+
+/* «یادش می‌ماند» */
+.pp-sup-memo{
+  border-radius:15px;padding:12px 14px;margin-top:11px;
+  background:linear-gradient(150deg,var(--pp-teal-s),var(--pp-paper) 70%);
+  border:1px solid color-mix(in srgb,var(--pp-blue) 24%,transparent)}
+.pp-sup-memo-head{display:flex;align-items:center;gap:7px;margin-bottom:5px}
+.pp-sup-memo-ic{width:24px;height:24px;border-radius:8px;display:grid;place-items:center;
+  background:var(--pp-blue-s);color:var(--pp-blue-d)}
+.pp-sup-memo-ic svg{width:13px;height:13px}
+.pp-sup-memo-head b{font-size:12.3px;font-weight:800;color:var(--pp-ink)}
+.pp-sup-memo p{font-size:11.8px;color:var(--pp-ink2);line-height:1.95}
+
+/* «چرا این‌جا؟» */
+.pp-sup-why{
+  display:inline-flex;align-items:center;gap:6px;margin-top:10px;border:0;background:none;cursor:pointer;
+  font:inherit;font-size:11.5px;font-weight:700;color:var(--pp-ink3);padding:2px 0}
+.pp-sup-why svg{width:13px;height:13px}
+.pp-sup-why:hover{color:var(--pp-lilac-d);text-decoration:underline;text-underline-offset:3px}
+.pp-sup-why-list{display:flex;flex-direction:column;gap:9px;margin:8px 0 12px}
+.pp-sup-why-item{display:flex;gap:10px;align-items:flex-start;background:var(--pp-paper);border:1px solid var(--pp-line);border-radius:14px;padding:11px 13px}
+.pp-sup-why-item > span{flex:none;width:28px;height:28px;border-radius:9px;display:grid;place-items:center;
+  background:var(--pp-lilac-s);color:var(--pp-lilac-d)}
+.pp-sup-why-item > span svg{width:14px;height:14px}
+.pp-sup-why-item b{display:block;font-size:12.3px;font-weight:800;color:var(--pp-ink)}
+.pp-sup-why-item p{font-size:11.8px;color:var(--pp-ink2);line-height:1.9;margin-top:1px}
+
+/* فهرست علائم هشدار */
+.pp-sup-block.sup-warn{border-color:color-mix(in srgb,var(--pp-danger) 28%,transparent);
+  background:linear-gradient(150deg,var(--pp-rose-s),var(--pp-paper) 72%)}
+.pp-sup-block.sup-warn h4{color:var(--pp-danger-d)}
+.pp-sup-block.sup-warn h4 svg{color:var(--pp-danger-d)}
+.pp-sup-block.sup-warn ul{margin:0;padding-inline-start:17px;display:flex;flex-direction:column;gap:4px}
+.pp-sup-block.sup-warn li{font-size:12px;color:var(--pp-ink2);line-height:1.85}
+.pp-sup-block.sup-warn li::marker{color:var(--pp-danger)}
+
+/* جدول مقایسه */
+.pp-sup-table{margin-top:6px;overflow-x:auto}
+.pp-sup-table table{width:100%;border-collapse:collapse;font-size:11.5px}
+.pp-sup-table th,.pp-sup-table td{border:1px solid var(--pp-line);padding:7px 9px;text-align:start;vertical-align:top;line-height:1.8}
+.pp-sup-table th{background:var(--pp-cream);font-weight:800;color:var(--pp-ink);font-size:11.5px}
+.pp-sup-table td{color:var(--pp-ink2)}
+.pp-sup-table tr:nth-child(even) td{background:color-mix(in srgb,var(--pp-cream) 45%,transparent)}
+
+/* سه سطح ایمنی */
+.pp-sup-levels{margin-top:10px;border-radius:16px;border:1px solid var(--pp-line);background:var(--pp-cream);padding:12px 13px}
+.pp-sup-levels h4{margin:0 0 8px;font-size:12.3px;font-weight:800;color:var(--pp-ink);display:flex;align-items:center;gap:7px}
+.pp-sup-levels h4 svg{width:14px;height:14px;color:var(--pp-ink3)}
+.pp-sup-level{display:flex;gap:9px;align-items:flex-start;padding:8px 0;border-top:1px dashed var(--pp-line)}
+.pp-sup-level:first-of-type{border-top:0}
+.pp-sup-level > span{flex:none;width:24px;height:24px;border-radius:8px;display:grid;place-items:center;margin-top:1px}
+.pp-sup-level > span svg{width:13px;height:13px}
+.pp-sup-level b{display:block;font-size:11.8px;font-weight:800;margin-bottom:1px}
+.pp-sup-level p{font-size:11.8px;color:var(--pp-ink2);line-height:1.9}
+.pp-sup-level.sup-lv-self > span{background:var(--pp-sage-s);color:var(--pp-pink-d)}
+.pp-sup-level.sup-lv-self b{color:var(--pp-pink-d)}
+.pp-sup-level.sup-lv-follow > span{background:var(--pp-lilac-s);color:var(--pp-lilac-d)}
+.pp-sup-level.sup-lv-follow b{color:var(--pp-lilac-d)}
+.pp-sup-level.sup-lv-urgent > span{background:var(--pp-rose-s);color:var(--pp-danger-d)}
+.pp-sup-level.sup-lv-urgent b{color:var(--pp-danger-d)}
+
+/* آمار معتبر */
+.pp-sup-prev{display:flex;gap:7px;align-items:flex-start;margin-top:9px;font-size:11.5px;color:var(--pp-ink2);
+  background:var(--pp-blue-s);border-radius:12px;padding:9px 11px;line-height:1.85}
+.pp-sup-prev svg{flex:none;width:13px;height:13px;margin-top:3px;color:var(--pp-blue-d)}
+
+/* خواندن صوتی */
+.pp-sup-audio{
+  display:inline-flex;align-items:center;gap:6px;margin:0 0 9px;border:1px solid var(--pp-line2);cursor:pointer;
+  font:inherit;font-size:11.5px;font-weight:700;color:var(--pp-lilac-d);background:var(--pp-paper);
+  border-radius:999px;padding:6px 12px}
+.pp-sup-audio:hover{border-color:var(--pp-lilac);background:var(--pp-lilac-s)}
+.pp-sup-audio svg{width:12px;height:12px}
+
+/* کارت ایمنی یادداشت */
+.pp-sup-safety{
+  border-radius:15px;padding:12px 13px;margin-bottom:12px;
+  background:linear-gradient(150deg,var(--pp-rose-s),var(--pp-paper) 74%);
+  border:1px solid color-mix(in srgb,var(--pp-danger) 34%,transparent)}
+.pp-sup-safety h4{margin:0 0 6px;font-size:12.3px;font-weight:800;color:var(--pp-danger-d);display:flex;align-items:center;gap:7px}
+.pp-sup-safety h4 svg{width:14px;height:14px}
+.pp-sup-safety p{font-size:12px;color:var(--pp-ink2);line-height:1.95}
+
+/* یادداشت پایان محتوا + منبع روزانه */
+.pp-sup-note{margin-top:12px;font-size:11px;color:var(--pp-ink3);display:flex;gap:7px;align-items:flex-start;line-height:1.8}
+.pp-sup-note svg{flex:none;width:12px;height:12px;margin-top:3px}
+.pp-sup-daily-src{margin-top:6px;font-size:10.5px;color:var(--pp-ink3)}
+.pp-sup-daily-src a{color:var(--pp-teal);text-decoration:underline;text-underline-offset:2px}
+
+/* شب */
+.pp.pp-night .pp-sup-personal{background:linear-gradient(150deg,rgba(205,175,126,.12),rgba(46,40,49,.86) 68%)}
+.pp.pp-night .pp-sup-state{background:rgba(46,40,49,.86)}
+.pp.pp-night .pp-sup-memo{background:linear-gradient(150deg,rgba(127,179,220,.10),rgba(46,40,49,.86) 70%)}
+.pp.pp-night .pp-sup-why-item,.pp.pp-night .pp-sup-levels{background:rgba(46,40,49,.86)}
+.pp.pp-night .pp-sup-table th{background:rgba(255,255,255,.06)}
+.pp.pp-night .pp-sup-prev{background:rgba(127,179,220,.10)}
+.pp.pp-night .pp-sup-audio{background:rgba(46,40,49,.86)}
+
+/* ==========================================================================
+   [۲٫۱] لایهٔ «همراه مهربان» — بازگشته از نسخهٔ ۱٫۱
+   (جملهٔ زمان‌آگاه، قلبِ «به دلم نشست»، تمرین تنفس، پل دو پرسش حالت،
+    جملهٔ به رسمیت‌شناختن، جملهٔ پایانی)
+   ========================================================================== */
+
+/* جملهٔ زمان‌آگاه */
+.pp-sup-timeline{margin:-4px 0 10px;font-size:11.3px;color:var(--pp-ink3);line-height:1.9;padding-inline-start:2px}
+
+/* قلبِ «به دلم نشست» */
+.pp-sup-daily-foot{margin-top:9px;padding-top:9px;border-top:1px dashed color-mix(in srgb,var(--pp-lilac) 22%,transparent);display:flex}
+.pp-sup-heart{
+  display:inline-flex;align-items:center;gap:6px;border:1px solid var(--pp-line);background:var(--pp-paper);
+  color:var(--pp-ink3);font:inherit;font-size:11px;font-weight:700;border-radius:999px;padding:6px 12px;cursor:pointer;
+  transition:.22s var(--pp-ease)}
+.pp-sup-heart svg{width:13px;height:13px;transition:.25s var(--pp-ease)}
+.pp-sup-heart:hover{border-color:var(--pp-pink);color:var(--pp-pink-d)}
+.pp-sup-heart.on{border-color:color-mix(in srgb,var(--pp-pink) 45%,transparent);color:var(--pp-pink-d);background:linear-gradient(150deg,var(--pp-pink-s),var(--pp-paper))}
+.pp-sup-heart.on svg{fill:currentColor}
+
+/* ابزارها: تمرین تنفس + پل دو پرسش */
+.pp-sup-tools{display:flex;flex-direction:column;gap:9px;margin-bottom:12px}
+.pp-sup-calm-btn{
+  display:flex;align-items:center;gap:11px;width:100%;text-align:start;font:inherit;cursor:pointer;
+  border:1px solid color-mix(in srgb,var(--pp-sage) 30%,transparent);border-radius:16px;padding:12px 14px;
+  background:linear-gradient(150deg,color-mix(in srgb,var(--pp-sage) 10%,var(--pp-paper)) 0%,var(--pp-paper) 62%);
+  box-shadow:var(--pp-sh-s);transition:.25s var(--pp-ease)}
+.pp-sup-calm-btn:hover{transform:translateY(-2px);box-shadow:var(--pp-sh)}
+.pp-sup-calm-btn>svg{flex:none;width:30px;height:30px;padding:6px;border-radius:11px;background:var(--pp-sage-s);color:var(--pp-sage-d)}
+.pp-sup-calm-btn span{flex:1}
+.pp-sup-calm-btn b{display:block;font-size:12.8px;font-weight:800;color:var(--pp-ink);line-height:1.6}
+.pp-sup-calm-btn i{display:block;font-style:normal;font-size:10.8px;color:var(--pp-ink3);margin-top:1px}
+.pp-sup-calm-btn svg:last-child{width:14px;height:14px;color:var(--pp-ink3);opacity:.6}
+
+/* پل نرم به دو پرسش حالت */
+.pp-sup-bridge{border:1px solid color-mix(in srgb,var(--pp-rose) 30%,transparent);border-radius:16px;padding:13px 15px;
+  background:linear-gradient(150deg,var(--pp-rose-s),var(--pp-paper))}
+.pp-sup-bridge b{display:block;font-size:12.3px;font-weight:800;color:var(--pp-ink);line-height:1.8;margin-bottom:5px}
+.pp-sup-bridge p{font-size:11.8px;color:var(--pp-ink2);line-height:2;margin-bottom:9px}
+
+/* جملهٔ به رسمیت‌شناختن احساس (ورود از مسیر «الان چه حالی داری؟») */
+.pp-sup-via{
+  background:linear-gradient(150deg,var(--pp-lilac-s),var(--pp-paper));border:1px solid color-mix(in srgb,var(--pp-lilac) 28%,transparent);
+  border-radius:14px;padding:11px 13px;font-size:12.3px;font-weight:600;color:var(--pp-lilac-d);line-height:2;margin-bottom:10px}
+
+/* جملهٔ پایانی ثابت هر محتوا */
+.pp-sup-closer{
+  margin-top:14px;padding-top:11px;border-top:1px dashed var(--pp-line);
+  font-size:11.6px;font-weight:700;color:var(--pp-ink3);display:flex;align-items:center;gap:7px;line-height:1.9}
+.pp-sup-closer svg{flex:none;width:13px;height:13px;color:var(--pp-pink-d)}
+
+/* به رسمیت‌شناختن بعد از ذخیرهٔ یادداشت */
+.pp-sup-ack{
+  display:flex;align-items:flex-start;gap:8px;background:linear-gradient(150deg,var(--pp-sage-s),var(--pp-paper));
+  border:1px solid color-mix(in srgb,var(--pp-sage) 30%,transparent);border-radius:14px;padding:11px 13px;margin-bottom:10px;
+  font-size:12px;font-weight:600;color:var(--pp-ink2);line-height:2}
+.pp-sup-ack svg{flex:none;margin-top:5px;width:14px;height:14px;color:var(--pp-sage-d)}
+
+/* تمرین تنفس */
+.pp-sup-calm{display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 0 2px}
+.pp-sup-calm-stage{position:relative;width:150px;height:150px;display:grid;place-items:center;margin-bottom:6px}
+.pp-sup-calm-circle{
+  position:absolute;inset:0;border-radius:50%;
+  background:radial-gradient(circle at 38% 32%,color-mix(in srgb,var(--pp-sage) 34%,#fff),color-mix(in srgb,var(--pp-sage) 55%,#fff));
+  border:1px solid color-mix(in srgb,var(--pp-sage) 36%,transparent);
+  box-shadow:0 10px 26px color-mix(in srgb,var(--pp-sage) 28%,transparent);
+  transition:transform 1s var(--pp-ease);transform:scale(1)}
+.pp-sup-calm-count{position:relative;font-size:26px;font-weight:800;color:var(--pp-sage-d)}
+.pp-sup-calm-label{font-size:13px;font-weight:700;color:var(--pp-ink);line-height:1.9;min-height:26px;text-align:center}
+.pp-sup-calm-meta{font-size:10.8px;color:var(--pp-ink3);min-height:16px}
+
+/* حالت شب (افزودهٔ ۲٫۱) */
+.pp.pp-night .pp-sup-calm-btn,.pp.pp-night .pp-sup-bridge{background:rgba(46,40,49,.86)}
+.pp.pp-night .pp-sup-via{background:linear-gradient(150deg,rgba(179,148,227,.14),rgba(46,40,49,.86))}
+.pp.pp-night .pp-sup-ack{background:linear-gradient(150deg,rgba(158,217,198,.12),rgba(46,40,49,.86))}
+.pp.pp-night .pp-sup-calm-circle{background:radial-gradient(circle at 38% 32%,rgba(158,217,198,.4),rgba(158,217,198,.62))}
+
+/* احترام به کاهش حرکت */
+@media (prefers-reduced-motion:reduce){
+  .pp-sup-calm-circle{transition:none}
+  .pp-sup-calm-btn:hover,.pp-sup-card:hover{transform:none}
+}
+
+/* موبایل (افزودهٔ ۲٫۱) */
+@media (max-width:560px){
+  .pp-sup-calm-stage{width:132px;height:132px}
+  .pp-sup-tools{gap:8px;margin-bottom:10px}
+}
+
+/* ==========================================================================
+   [۲٫۲] ایمنی دفترچه: کارت نرم سطح ۲ + شماره‌های حمایتی + لینک کمک فوری
+   ========================================================================== */
+
+/* کارت نرم (سطح ۲ — فکر ناخواسته، نه قصد): لحن آرام‌تر از کارت ایمنی سطح ۱ */
+.pp-sup-safety.pp-sup-soft{
+  background:linear-gradient(150deg,var(--pp-lilac-s),var(--pp-paper) 74%);
+  border-color:color-mix(in srgb,var(--pp-lilac) 34%,transparent)}
+.pp-sup-safety.pp-sup-soft h4{color:var(--pp-lilac-d)}
+
+/* خط شماره‌های حمایتی رایگان داخل کارت ایمنی (از CRISIS_LINES) */
+.pp-sup-crisis{margin-top:6px;font-size:11.5px;font-weight:600;color:var(--pp-ink2);line-height:1.9}
+
+/* لینک کوچک و آرام پایین دفترچه: «اگر کمک فوری لازم داری» */
+.pp-sup-crisis-link{
+  margin-top:10px;display:inline-flex;align-items:center;gap:6px;border:0;background:none;cursor:pointer;
+  font:inherit;font-size:11px;font-weight:600;color:var(--pp-ink3);padding:0;transition:.2s var(--pp-ease)}
+.pp-sup-crisis-link svg{width:12px;height:12px}
+.pp-sup-crisis-link:hover{color:var(--pp-danger-d)}
+
+/* شب (افزودهٔ ۲٫۲) */
+.pp.pp-night .pp-sup-safety.pp-sup-soft{background:linear-gradient(150deg,rgba(179,148,227,.14),rgba(46,40,49,.86))}
+.pp.pp-night .pp-sup-crisis-link{color:var(--pp-ink3)}
+
+/* ==========================================================================
+   [۲٫۳/۲٫۴] فلش‌کارت‌های «کارت برگردان» — طرح اولیهٔ سَمن
+   [۲٫۴] کارت دیگر در فهرست نیست؛ با انتخاب موضوع، به‌صورت تکی در شیت باز
+   می‌شود (pp-flip-solo). فهرست موضوع‌ها متن ساده است (pp-sup-topics).
+   روی کارت: تصویر full-bleed + گرادیان تیره از پایین + چیپ موضوع + عنوان
+   پشت کارت: هدر با بندانگشتی، «شاید…» نقل‌قول با خط رنگی، «یه جور دیگه
+   نگاهش کن» باکس رنگی، «یک قدم کوچک» کادر خط‌چین + دکمهٔ متن کامل
+   رنگ هر بخش از پالت خود اپ (غم=آبی، شک=یاسی، بدن=نارنجی)
+   ========================================================================== */
+.pp-flip-solo{max-width:380px;margin:0 auto 10px;
+  --fpc:var(--pp-lilac);--fpcd:var(--pp-lilac-d);--fpcs:var(--pp-lilac-s)}
+.pp-flip-solo[data-tone="sad"]{--fpc:var(--pp-blue);--fpcd:var(--pp-blue-d);--fpcs:var(--pp-blue-s)}
+.pp-flip-solo[data-tone="body"]{--fpc:var(--pp-orange);--fpcd:var(--pp-orange-d);--fpcs:var(--pp-orange-s)}
+.pp-flip-solo .pp-flip-card{max-height:470px}
+.pp-flip-solo-hint{text-align:center;margin-bottom:2px}
+.pp-flip{min-width:0}
+.pp-flip-card{
+  position:relative;width:100%;aspect-ratio:4/5;max-height:420px;border-radius:24px;
+  perspective:1400px;transform-style:preserve-3d;cursor:pointer;
+  transition:transform .7s cubic-bezier(.2,.8,.2,1);outline-offset:4px}
+.pp-flip-card.flipped{transform:rotateY(180deg)}
+.pp-flip-card:focus-visible{outline:3px solid var(--fpcd)}
+.pp-flip-face{
+  position:absolute;inset:0;border-radius:24px;overflow:hidden;
+  backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  border:1px solid var(--pp-line);box-shadow:0 16px 34px -18px rgba(70,42,55,.42)}
+.pp-flip-front{background:var(--fpcs)}
+.pp-flip-front img{width:100%;height:100%;object-fit:cover;display:block}
+.pp-flip-noimg{position:absolute;inset:0;display:grid;place-items:center;
+  background:linear-gradient(150deg,var(--fpcs),var(--pp-paper) 80%)}
+.pp-flip-noimg svg{width:44px;height:44px;color:var(--fpc);opacity:.55}
+.pp-flip-shade{position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(30,20,25,.74) 0%,rgba(30,20,25,.18) 46%,transparent 72%)}
+.pp-flip-cap{position:absolute;inset-inline:0;bottom:0;z-index:2;padding:17px;color:#fff;
+  display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+.pp-flip-chip{display:inline-flex;align-items:center;gap:6px;font-size:10.5px;font-weight:700;line-height:1.7;
+  padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.22);color:#fff;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.pp-flip-chip::before{content:"";width:6px;height:6px;border-radius:50%;background:#fff;flex:none}
+.pp-flip-ttl{margin:0;font-family:"Lalezar","Vazirmatn",sans-serif;font-weight:400;
+  font-size:22px;line-height:1.5;text-wrap:balance}
+.pp-flip-hint{margin-top:2px;font-size:10.5px;font-weight:600;opacity:.9;
+  display:inline-flex;align-items:center;gap:6px}
+.pp-flip-hint i{width:22px;height:22px;border-radius:50%;border:1px solid rgba(255,255,255,.6);
+  display:grid;place-items:center;animation:pp-flip-pulse 2s infinite;flex:none}
+.pp-flip-hint i svg{width:11px;height:11px}
+@keyframes pp-flip-pulse{50%{transform:scale(1.15);opacity:.6}}
+.pp-flip-back{transform:rotateY(180deg);background:var(--pp-paper);display:flex;flex-direction:column}
+.pp-flip-head{display:flex;gap:10px;align-items:center;padding:12px 14px 10px;
+  border-bottom:1px solid var(--pp-line);flex:none}
+.pp-flip-head img{width:42px;height:42px;border-radius:13px;object-fit:cover;flex:none}
+.pp-flip-back .pp-flip-chip{background:var(--fpcs);color:var(--fpcd);align-self:flex-start}
+.pp-flip-back .pp-flip-chip::before{background:var(--fpc)}
+.pp-flip-ttl-sm{margin:2px 0 0;font-size:12.8px;font-weight:800;color:var(--pp-ink);line-height:1.7}
+.pp-flip-back-body{
+  flex:1;min-height:0;overflow:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;
+  padding:12px 14px 14px;display:flex;flex-direction:column;gap:12px}
+.pp-flip-back-body::-webkit-scrollbar{display:none}
+.pp-flip-lbl{font-size:10.5px;font-weight:800;color:var(--fpcd);
+  display:flex;align-items:center;gap:6px;margin-bottom:5px}
+.pp-flip-lbl::after{content:"";flex:1;height:1px;background:linear-gradient(to left,var(--fpcs),transparent)}
+.pp-flip-back-body blockquote{margin:0;font-size:12.3px;line-height:2;font-weight:500;color:var(--pp-ink2);
+  position:relative;padding-inline-start:12px;border-inline-start:3px solid var(--fpc)}
+.pp-flip-reframe{background:var(--fpcs);border-radius:14px;padding:10px 12px;
+  font-size:12px;line-height:1.95;font-weight:600;color:var(--fpcd)}
+.pp-flip-act{border:1.5px dashed var(--fpc);border-radius:14px;padding:10px 12px}
+.pp-flip-act p{margin:0;font-size:12px;color:var(--pp-ink2);line-height:1.95}
+.pp-flip-read{
+  display:inline-flex;align-items:center;gap:7px;margin-top:auto;font:inherit;cursor:pointer;
+  font-size:11.5px;font-weight:800;color:#fff;background:var(--fpc);border:0;border-radius:999px;
+  padding:9px 14px;transition:.2s var(--pp-ease)}
+.pp-flip-read:hover{background:var(--fpcd)}
+.pp-flip-read svg{width:13px;height:13px;flex:none}
+.pp-flip-read svg:last-child{margin-inline-start:auto}
+
+/* شب (افزودهٔ ۲٫۳) */
+.pp.pp-night .pp-flip-face{box-shadow:0 16px 34px -18px rgba(0,0,0,.55)}
+
+/* موبایل (افزودهٔ ۲٫۴) */
+@media (max-width:560px){
+  .pp-flip-solo{max-width:100%}
+  .pp-flip-ttl{font-size:21px}
+}
+
+/* احترام به کاهش حرکت (افزودهٔ ۲٫۳) */
+@media (prefers-reduced-motion:reduce){
+  .pp-flip-card{transition:none}
+  .pp-flip-hint i{animation:none}
+}
+
+/* ==========================================================================
+   [۲٫۵] صفحهٔ اصلی «مراقبت من» — چهار ورودی اصلی به‌صورت کارت‌های بصری
+   ترتیب: وقتی دلم می‌گیره ← وقتی به خودم شک می‌کنم ← بدنم هم به زمان نیاز
+   داره ← حرف دلم رو بنویسم. هر کارت: آیکون + عنوان + توضیح + شمارندهٔ محتوا
+   و رنگ خودش (غم=آبی، شک=یاسی، بدن=نارنجی، دفترچه=صورتی).
+   ========================================================================== */
+.pp-sup-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.pp-sup-card.pp-sup-hub{padding:15px 15px 13px;gap:9px;min-height:116px}
+.pp-sup-hub .pp-sup-card-ic{width:40px;height:40px;border-radius:13px}
+.pp-sup-hub .pp-sup-card-ic svg{width:20px;height:20px}
+.pp-sup-hub .pp-sup-card-b b{font-size:13.8px;line-height:1.65}
+.pp-sup-hub .pp-sup-card-b i{font-size:11.2px;line-height:1.9;margin-top:3px}
+.pp-sup-hub .pp-sup-card-arrow{position:static;inset:auto;opacity:.55;transition:.25s var(--pp-ease)}
+.pp-sup-hub .pp-sup-card-arrow svg{width:15px;height:15px}
+.pp-sup-hub:hover .pp-sup-card-arrow{opacity:1;transform:translateX(-3px)}
+.pp-sup-hub-meta{
+  display:inline-flex;align-items:center;gap:5px;align-self:flex-start;margin-top:auto;
+  font-size:10.2px;font-weight:800;padding:4px 10px;border-radius:999px;line-height:1.6}
+.pp-sup-hub-meta::before{content:"";width:5px;height:5px;border-radius:50%;background:currentColor;flex:none;opacity:.75}
+.sup-blue .pp-sup-hub-meta{background:var(--pp-blue-s);color:var(--pp-blue-d)}
+.sup-lilac .pp-sup-hub-meta{background:var(--pp-lilac-s);color:var(--pp-lilac-d)}
+.sup-orange .pp-sup-hub-meta{background:var(--pp-orange-s);color:var(--pp-orange-d)}
+.sup-pink .pp-sup-hub-meta{background:var(--pp-pink-s);color:var(--pp-pink-d)}
+
+/* حالت شب (افزودهٔ ۲٫۵) */
+.pp.pp-night .pp-sup-hub-meta{background:rgba(255,255,255,.07)}
+
+/* موبایل (افزودهٔ ۲٫۵) — کارت‌ها ورودی‌های اصلی صفحه‌اند؛ توضیح پنهان نمی‌شود */
+@media (max-width:560px){
+  .pp-sup-card.pp-sup-hub{padding:13px 13px 11px;min-height:106px}
+  .pp-sup-card.pp-sup-hub .pp-sup-card-b i{display:block}
+  .pp-sup-hub .pp-sup-card-b b{font-size:12.8px}
+  .pp-sup-hub .pp-sup-card-b i{font-size:10.4px;line-height:1.8}
+  .pp-sup-hub-meta{font-size:9.6px;padding:3px 8px}
+}

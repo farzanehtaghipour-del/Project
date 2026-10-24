@@ -1,0 +1,733 @@
+/* ============================================================================
+   همراه مادر | pp-companion.css — v5 (صورتی/آبی/نارنجی/یاسیِ پررنگ)
+   ----------------------------------------------------------------------------
+   بازطراحی رنگی زنده — هم‌خانوادهٔ آرتیفکت تقویم چرخه:
+     • پالت شاد و پرانرژی: صورتی (اصلی) + آبی + نارنجی + یاسیِ پررنگ؛
+       طلایی/لیمویی/نقره‌ای پشتیبان؛ قرمز فقط برای ایمنی (علائم خطر/فوری).
+     • پس‌زمینهٔ کل بخش = تصویر ابریشمی img/pp/background.jpg با نقاب کرمی
+       برای خوانایی (نسخهٔ شب: نقاب تیره روی همان تصویر).
+     • ورودی تصویری: شش عکس کوچکِ هم‌راستا با قاب‌های رنگی (pp-entrance)
+       + مینی‌نمودار ورودی (بهبود من/رشد نوزاد) + خط دلگرمی روزانه.
+     • تقویم = آرتیفکت قاب‌دار (pp-cal-art) با هدر تزئینی و خانه‌های رنگی.
+     • چهار بخش تب‌شده (pp-tabbar / pp-pane) — جای اسکرول بلند.
+     • کارت هشدار نرم (pp-alert) — قرمز فقط برای فوری، نارنجی برای پیگیری.
+     • کارت‌ها شیشه‌ای ظریف (backdrop-filter) با خط رنگی و سایهٔ نرم؛
+       اندازه‌ها فشرده (پایهٔ ۱۳.۵px) — دیگر «گنده و زشت» نیست.
+   در ادغام با سَمن: بلوک @font-face حذف شد (فونت خودِ سَمن استفاده می‌شود).
+   ============================================================================ */
+
+.pp{
+  --pp-bg:#FDF3F0; --pp-paper:rgba(255,253,251,.9); --pp-cream:#FBF0F0;
+  --pp-ink:#38302E; --pp-ink2:#63534F; --pp-ink3:#A28D89;
+  --pp-line:rgba(198,112,140,.16); --pp-line2:rgba(198,112,140,.3);
+  --pp-pink:#E0699A; --pp-pink-d:#C24B7E; --pp-pink-s:rgba(224,105,154,.16);
+  --pp-blue:#4F93C8; --pp-blue-d:#3776AB; --pp-blue-s:rgba(79,147,200,.15);
+  --pp-orange:#E2894B; --pp-orange-d:#C46F33; --pp-orange-s:rgba(226,137,75,.17);
+  --pp-lilac:#8A63C9; --pp-lilac-d:#6F4BB0; --pp-lilac-s:rgba(138,99,201,.16);
+  --pp-gold:#B08D57; --pp-gold-d:#8A6C3B; --pp-gold-s:rgba(176,141,87,.13);
+  --pp-lemon:#C9B45E; --pp-lemon-d:#96822F; --pp-lemon-s:rgba(216,198,133,.2);
+  --pp-silver:#98A0AE; --pp-silver-d:#6F7787; --pp-silver-s:rgba(169,175,188,.18);
+  --pp-danger:#C25468; --pp-danger-d:#A03C50; --pp-danger-s:rgba(194,84,104,.12);
+  /* نام‌های قدیمی کامپوننت‌ها → پالت تازه (تا همهٔ قاعده‌ها هم‌زمان رنگ بگیرند) */
+  --pp-sage:var(--pp-pink); --pp-sage-d:var(--pp-pink-d); --pp-sage-s:var(--pp-pink-s);
+  --pp-terra:var(--pp-orange); --pp-terra-d:var(--pp-orange-d); --pp-terra-s:var(--pp-orange-s);
+  --pp-honey:var(--pp-orange); --pp-honey-d:var(--pp-orange-d); --pp-honey-s:var(--pp-orange-s);
+  --pp-lav:var(--pp-pink); --pp-lav-s:var(--pp-pink-s);
+  --pp-teal:var(--pp-blue); --pp-teal-s:var(--pp-blue-s);
+  --pp-rose:var(--pp-danger); --pp-rose-d:var(--pp-danger-d); --pp-rose-s:var(--pp-danger-s);
+  --pp-sh-s:0 1px 3px rgba(70,42,55,.05);
+  --pp-sh:0 10px 26px -12px rgba(70,42,55,.16),0 2px 6px rgba(70,42,55,.04);
+  --pp-sh-l:0 26px 60px -28px rgba(70,42,55,.28),0 8px 20px -12px rgba(70,42,55,.10);
+  --pp-ease:cubic-bezier(.34,1.28,.5,1);
+  --pp-acc:var(--pp-pink); --pp-acc-2:var(--pp-lilac); --pp-acc-soft:var(--pp-pink-s);
+
+  direction:rtl; font-family:'Vazirmatn',system-ui,-apple-system,Segoe UI,sans-serif;
+  color:var(--pp-ink); font-size:13.5px; line-height:1.85; -webkit-text-size-adjust:100%;
+  /* پس‌زمینهٔ کل بخش — تصویر ابریشمی «Background» + نقاب صورتی‌کرم خوانا */
+  background:
+    linear-gradient(180deg, rgba(253,242,240,.42), rgba(251,236,236,.6)),
+    url("img/pp/background.jpg") center / cover no-repeat #FDF3F0;
+  background-attachment:fixed;
+  border-radius:26px;
+}
+.pp *,.pp *::before,.pp *::after{box-sizing:border-box}
+.pp svg{width:18px;height:18px;flex:none;display:block}
+.pp p{margin:0}
+.pp ul{margin:0;padding-inline-start:18px}
+.pp button{font-family:inherit}
+.pp :focus-visible{outline:3px solid var(--pp-pink-d);outline-offset:2px;border-radius:10px}
+.pp-wrap{max-width:980px;margin:0 auto;padding:14px 13px 86px}
+
+/* ---------- حالت شب — برای شیردهی شبانه و نور کم ----------
+   پس‌زمینهٔ تیرهٔ گرم (نه سیاهِ خالص)؛ روی کل قاب ماژول می‌نشیند. */
+.pp.pp-night,.pp.pp-night .pp{
+  --pp-bg:#252028; --pp-paper:rgba(46,40,49,.86); --pp-cream:#372F3A;
+  --pp-ink:#F2EBF0; --pp-ink2:#CFC4CF; --pp-ink3:#9C919D;
+  --pp-line:rgba(255,255,255,.10); --pp-line2:rgba(255,255,255,.18);
+  --pp-pink:#EE8FB4; --pp-pink-d:#F5B3CC; --pp-pink-s:rgba(238,143,180,.15);
+  --pp-blue:#7FB3DC; --pp-blue-d:#A3CBE9; --pp-blue-s:rgba(127,179,220,.14);
+  --pp-orange:#EDA96F; --pp-orange-d:#F2C08F; --pp-orange-s:rgba(237,169,111,.14);
+  --pp-lilac:#B394E3; --pp-lilac-d:#CDB2EF; --pp-lilac-s:rgba(179,148,227,.15);
+  --pp-gold:#CDAF7E; --pp-gold-d:#E0C79B; --pp-gold-s:rgba(205,175,126,.14);
+  --pp-lemon:#D8C887; --pp-lemon-d:#E6DAAD; --pp-lemon-s:rgba(216,200,135,.13);
+  --pp-silver:#AEB4C0; --pp-silver-d:#C6CBD6; --pp-silver-s:rgba(174,180,192,.16);
+  --pp-danger:#E08A9C; --pp-danger-d:#EFB3C0; --pp-danger-s:rgba(224,138,156,.14);
+  --pp-sage:var(--pp-pink); --pp-sage-d:var(--pp-pink-d); --pp-sage-s:var(--pp-pink-s);
+  --pp-terra:var(--pp-orange); --pp-terra-d:var(--pp-orange-d); --pp-terra-s:var(--pp-orange-s);
+  --pp-honey:var(--pp-orange); --pp-honey-d:var(--pp-orange-d); --pp-honey-s:var(--pp-orange-s);
+  --pp-lav:var(--pp-pink); --pp-lav-s:var(--pp-pink-s);
+  --pp-teal:var(--pp-blue); --pp-teal-s:var(--pp-blue-s);
+  --pp-rose:var(--pp-danger); --pp-rose-d:var(--pp-danger-d); --pp-rose-s:var(--pp-danger-s);
+  --pp-sh-s:0 1px 3px rgba(0,0,0,.35);
+  --pp-sh:0 10px 26px -12px rgba(0,0,0,.5),0 2px 6px rgba(0,0,0,.3);
+  background:
+    linear-gradient(180deg, rgba(37,32,40,.72), rgba(37,32,40,.82)),
+    url("img/pp/background.jpg") center / cover no-repeat #252028;
+  background-attachment:fixed;
+  border-radius:26px;padding:14px 10px;
+  box-shadow:0 30px 70px -34px rgba(0,0,0,.65),inset 0 0 0 1px rgba(255,255,255,.06);
+}
+
+/* ---------- هدر کوچک (روز N · فاز) ---------- */
+.pp-head{
+  background:var(--pp-paper);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border:1px solid var(--pp-line);border-radius:18px;
+  padding:11px 14px;box-shadow:var(--pp-sh-s)}
+.pp-head-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.pp-head-day{display:flex;align-items:center;gap:9px;color:var(--pp-acc)}
+.pp-head-day b{font-size:14.5px;font-weight:800;color:var(--pp-ink)}
+.pp-head-day i{font-style:normal;color:var(--pp-ink3)}
+.pp-head-day span{font-size:11.5px;color:var(--pp-ink2);font-weight:600}
+.pp-head-sub{margin-top:4px;font-size:11px;color:var(--pp-ink3)}
+.pp-head-tools{margin-inline-start:auto;display:flex;gap:7px}
+.pp-tool{display:inline-flex;align-items:center;gap:5px;font:inherit;font-size:11px;font-weight:700;
+  cursor:pointer;border:1px solid var(--pp-line2);background:transparent;color:var(--pp-ink2);
+  border-radius:11px;padding:6px 9px;transition:.25s var(--pp-ease)}
+.pp-tool:hover{border-color:var(--pp-acc);color:var(--pp-acc)}
+.pp-tool.on{background:var(--pp-acc-soft);border-color:var(--pp-acc);color:var(--pp-acc)}
+.pp-tool[aria-pressed="true"]{background:var(--pp-acc-soft);border-color:var(--pp-acc);color:var(--pp-acc)}
+
+/* پنل تنظیمات (یک‌باره) — جمع‌شده زیر هدر */
+.pp-setup{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;
+  background:var(--pp-cream);border-radius:14px;padding:10px 12px}
+.pp-setup b{font-size:12px}
+.pp-setup select{
+  font:inherit;font-size:12px;font-weight:600;padding:7px 9px;border-radius:10px;border:1px solid var(--pp-line2);
+  background:var(--pp-paper);color:var(--pp-ink);cursor:pointer}
+.pp-setup .pp-setup-hint{font-size:10.5px;color:var(--pp-ink3);width:100%}
+
+/* ---------- کارت‌های عمومی ---------- */
+.pp-card{background:var(--pp-paper);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border:1px solid var(--pp-line);border-radius:18px;
+  padding:15px 17px;box-shadow:var(--pp-sh-s)}
+.pp-sec{margin-top:16px}
+.pp-sec-head{display:flex;align-items:center;gap:11px;margin-bottom:10px}
+.pp-sec-head .pp-ic{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;
+  background:var(--pp-acc-soft);color:var(--pp-acc-d,var(--pp-gold-d))}
+.pp-sec-head h2{font-size:16.5px;font-weight:800;margin:0;line-height:1.45}
+.pp-sec-head .pp-sec-sub{font-size:11px;color:var(--pp-ink3);font-weight:400}
+
+/* ---------- کارت «امروز برای تو» — شست ملایم با متن تیره (خوانا در روز و شب) ---------- */
+.pp-today{--pp-acc:var(--pp-gold);position:relative;overflow:hidden;color:var(--pp-ink);
+  border:1px solid color-mix(in srgb,var(--pp-acc) 30%,transparent);
+  background:linear-gradient(150deg,color-mix(in srgb,var(--pp-acc) 15%,var(--pp-paper)) 0%,var(--pp-paper) 62%);
+  box-shadow:var(--pp-sh)}
+.pp.pp-night .pp-today{
+  background:linear-gradient(150deg,color-mix(in srgb,var(--pp-acc) 20%,var(--pp-paper)) 0%,var(--pp-paper) 62%);
+  border-color:color-mix(in srgb,var(--pp-acc) 38%,transparent);
+  box-shadow:var(--pp-sh-s)}
+.pp-today-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.pp-today-kick{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:800;
+  color:color-mix(in srgb,var(--pp-acc) 75%,var(--pp-ink));
+  background:color-mix(in srgb,var(--pp-acc) 14%,transparent);border-radius:999px;padding:6px 13px}
+.pp-more{margin-inline-start:auto;display:inline-flex;align-items:center;gap:6px;font:inherit;font-size:12px;
+  font-weight:700;cursor:pointer;border:1px solid color-mix(in srgb,var(--pp-acc) 26%,transparent);
+  color:color-mix(in srgb,var(--pp-acc) 72%,var(--pp-ink));
+  background:color-mix(in srgb,var(--pp-acc) 10%,transparent);
+  border-radius:999px;padding:7px 12px;transition:.25s var(--pp-ease)}
+.pp-more:hover{background:color-mix(in srgb,var(--pp-acc) 20%,transparent)}
+.pp-more svg{width:14px;height:14px}
+.pp-today .pp-cc{background:var(--pp-paper);border-color:var(--pp-line);box-shadow:none}
+.pp-today .pp-cc .pp-cc-kind{color:var(--pp-ink3)}
+.pp-today .pp-cc .pp-cc-ic{background:color-mix(in srgb,var(--pp-acc) 10%,var(--pp-cream));color:color-mix(in srgb,var(--pp-acc) 70%,var(--pp-ink))}
+.pp-today .pp-cc ul li::marker{color:var(--pp-acc)}
+.pp-today-tasks{display:flex;flex-direction:column;gap:8px;margin-top:11px}
+.pp-today .pp-task{background:color-mix(in srgb,var(--pp-acc) 8%,var(--pp-paper));border-color:color-mix(in srgb,var(--pp-acc) 16%,transparent)}
+.pp-today .pp-task span{color:var(--pp-ink)}
+.pp-today .pp-task .pp-box{background:var(--pp-paper);border-color:color-mix(in srgb,var(--pp-acc) 45%,transparent);color:var(--pp-acc)}
+.pp.pp-night .pp-today .pp-task .pp-box{background:var(--pp-cream)}
+.pp-today .pp-task.done{background:color-mix(in srgb,var(--pp-acc) 14%,var(--pp-paper))}
+.pp-today .pp-task.done .pp-box{background:var(--pp-sage-d);border-color:var(--pp-sage-d);color:#fff}
+
+/* ---------- کارت‌های محتوای روز ---------- */
+.pp-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:13px;align-items:start}
+.pp-cc{position:relative;background:var(--pp-paper);border:1px solid var(--pp-line);border-radius:16px;
+  padding:12px 13px;box-shadow:var(--pp-sh-s);overflow:hidden}
+.pp-cc::before{content:"";position:absolute;inset-inline-start:0;top:0;bottom:0;width:4px;background:var(--pp-sage)}
+.pp-cc.k-body::before{background:var(--pp-blue)}
+.pp-cc.k-baby::before{background:var(--pp-orange)}
+.pp-cc.k-mind::before{background:var(--pp-lilac)}
+.pp-cc.k-feed::before{background:var(--pp-pink)}
+.pp-cc.k-care::before{background:var(--pp-silver)}
+.pp-cc-top{display:flex;align-items:flex-start;gap:10px;margin-bottom:7px}
+.pp-cc-ic{flex:none;width:29px;height:29px;border-radius:9px;display:grid;place-items:center;
+  background:var(--pp-cream);color:var(--pp-ink2)}
+.pp-cc-kind{font-size:10.5px;font-weight:700;color:var(--pp-ink3)}
+.pp-cc h3{margin:0;font-size:13.5px;line-height:1.6}
+.pp-cc p{font-size:12px;color:var(--pp-ink2);line-height:1.95}
+.pp-cc ul{margin-top:7px;display:flex;flex-direction:column;gap:4px;font-size:11.5px;color:var(--pp-ink2)}
+.pp-cc ul li::marker{color:var(--pp-acc)}
+
+/* ---------- کارها ---------- */
+.pp-tasks{display:flex;flex-direction:column;gap:9px;margin-top:4px}
+.pp-task{display:flex;align-items:flex-start;gap:9px;background:var(--pp-cream);border-radius:12px;
+  padding:9px 11px;cursor:pointer;border:1px solid transparent;transition:.25s var(--pp-ease);font:inherit;text-align:start}
+.pp-task:hover{border-color:var(--pp-line2)}
+.pp-task .pp-box{flex:none;width:22px;height:22px;border-radius:8px;border:2px solid var(--pp-line2);
+  display:grid;place-items:center;background:var(--pp-paper);color:#fff;transition:.25s var(--pp-ease)}
+.pp-task span{font-size:12px;color:var(--pp-ink2)}
+.pp-task.done{background:var(--pp-sage-s)}
+.pp-task.done .pp-box{background:var(--pp-sage);border-color:var(--pp-sage)}
+.pp-task.done span{text-decoration:line-through;color:var(--pp-ink3)}
+
+/* ---------- چک‌این ---------- */
+.pp-ci{display:flex;flex-direction:column;gap:12px}
+.pp-ci-row{display:flex;flex-direction:column;gap:8px}
+.pp-ci-lab{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:600}
+.pp-ci-lab svg{color:var(--pp-ink3)}
+.pp-seg{display:flex;gap:6px;flex-wrap:wrap}
+.pp-seg button{font:inherit;font-size:11.5px;font-weight:600;cursor:pointer;border:1px solid var(--pp-line2);
+  background:var(--pp-paper);color:var(--pp-ink2);border-radius:11px;padding:7px 11px;transition:.25s var(--pp-ease)}
+.pp-seg button:hover{border-color:var(--pp-acc);color:var(--pp-acc)}
+.pp-seg button[aria-pressed="true"]{background:var(--pp-acc);border-color:var(--pp-acc);color:#fff;
+  box-shadow:0 10px 18px -10px var(--pp-acc)}
+.pp-seg button.dang[aria-pressed="true"]{background:var(--pp-rose-d);border-color:var(--pp-rose-d);
+  box-shadow:0 10px 18px -10px var(--pp-rose-d)}
+.pp-faces button{border-radius:12px;padding:8px 11px;display:inline-flex;align-items:center;gap:6px}
+.pp-faces svg{width:17px;height:17px}
+.pp-ci-details{border-top:1px dashed var(--pp-line2);padding-top:12px}
+.pp-note{width:100%;min-height:64px;resize:vertical;font:inherit;font-size:12.5px;line-height:1.9;
+  border:1px solid var(--pp-line2);border-radius:12px;padding:10px 12px;background:var(--pp-paper);color:var(--pp-ink)}
+.pp-note:focus{outline:0;border-color:var(--pp-acc);box-shadow:0 0 0 4px var(--pp-acc-soft)}
+.pp-ci-actions{display:flex;gap:9px;flex-wrap:wrap;align-items:center;margin-top:4px}
+.pp-btn{font:inherit;font-weight:700;font-size:12.5px;cursor:pointer;border:0;border-radius:12px;
+  padding:10px 15px;display:inline-flex;align-items:center;gap:7px;transition:.28s var(--pp-ease)}
+.pp-btn-main{background:linear-gradient(135deg,var(--pp-pink) 0%,var(--pp-pink-d) 100%);color:#fff;
+  box-shadow:0 10px 20px -12px var(--pp-pink-d)}
+.pp-btn-main:hover{transform:translateY(-2px)}
+.pp-btn-ghost{background:var(--pp-paper);color:var(--pp-ink2);border:1px solid var(--pp-line2)}
+.pp-btn-ghost:hover{border-color:var(--pp-acc);color:var(--pp-acc)}
+.pp-btn-sm{font-size:11.5px;padding:8px 12px;border-radius:11px}
+.pp-saved{font-size:11.5px;color:var(--pp-gold-d);display:inline-flex;align-items:center;gap:7px}
+
+/* ---------- توصیه‌های متناسب ---------- */
+.pp-outs{display:flex;flex-direction:column;gap:11px;margin-top:4px}
+.pp-out{position:relative;border-radius:14px;padding:11px 13px;border:1px solid var(--pp-line);
+  background:var(--pp-paper);border-inline-start:3px solid var(--pp-sage)}
+.pp-out.lv-info{border-inline-start-color:var(--pp-sage);background:var(--pp-sage-s)}
+.pp-out.lv-care{border-inline-start-color:var(--pp-orange);background:var(--pp-orange-s)}
+.pp-out.lv-urgent{border-inline-start-color:var(--pp-danger);background:var(--pp-danger-s);border-color:rgba(194,84,104,.35)}
+.pp-out-t{display:flex;align-items:center;gap:8px;font-weight:700;font-size:12.5px;margin-bottom:4px}
+.pp-out.lv-urgent .pp-out-t{color:var(--pp-danger-d)}
+.pp-out p{font-size:11.8px;color:var(--pp-ink2);line-height:1.9}
+.pp-out ul{margin-top:6px;display:flex;flex-direction:column;gap:4px;font-size:11.5px;color:var(--pp-ink2)}
+.pp-out-src{margin-top:8px;font-size:11px;color:var(--pp-ink3)}
+.pp-out-src a{color:var(--pp-teal);text-decoration:underline;text-underline-offset:3px}
+.pp-out-link{margin-top:9px;font:inherit;font-size:12px;font-weight:700;cursor:pointer;background:none;border:0;
+  color:var(--pp-acc);padding:0;text-decoration:underline;text-underline-offset:3px}
+.pp-empty{background:var(--pp-cream);border-radius:13px;padding:11px 13px;font-size:11.8px;color:var(--pp-ink2);
+  display:flex;gap:10px;align-items:flex-start}
+.pp-empty svg{flex:none;margin-top:4px;color:var(--pp-ink3)}
+
+/* ---------- نوار هفتگی + تقویم کامل — آرتیفکت قاب‌دار ---------- */
+.pp-cal-art{position:relative;border:1px solid var(--pp-line2);border-radius:20px;padding:15px 15px 13px;
+  background:linear-gradient(160deg,color-mix(in srgb,var(--pp-acc) 9%,var(--pp-paper)),var(--pp-paper) 46%);
+  box-shadow:var(--pp-sh)}
+.pp-cal-art::after{content:"";position:absolute;inset:5px;border:1px dashed color-mix(in srgb,var(--pp-acc) 40%,transparent);
+  border-radius:15px;pointer-events:none;opacity:.6}
+.pp-cal-art>*{position:relative;z-index:1}
+.pp-cal-art-head{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:12px}
+.pp-cal-art-days{margin-inline-start:auto;font-size:11px;font-weight:700;color:var(--pp-acc);
+  background:color-mix(in srgb,var(--pp-acc) 12%,transparent);border-radius:999px;padding:5px 12px}
+.pp-week{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.pp-cal-full{margin-top:14px;border-top:1px dashed var(--pp-line2);padding-top:14px}
+.pp-cal-top{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
+.pp-cal-phase{display:flex;align-items:center;gap:9px;background:var(--pp-acc-soft);border-radius:999px;
+  padding:6px 14px;font-size:12.5px;font-weight:700;color:var(--pp-acc)}
+.pp-cal-phase i{width:8px;height:8px;border-radius:50%;background:currentColor;display:inline-block}
+.pp-cal-range{margin-inline-start:auto;display:flex;gap:5px;background:var(--pp-cream);border-radius:13px;padding:4px}
+.pp-cal-range button{font:inherit;font-size:11px;font-weight:600;cursor:pointer;border:0;border-radius:9px;
+  padding:6px 10px;background:none;color:var(--pp-ink3);transition:.25s var(--pp-ease)}
+.pp-cal-range button[aria-pressed="true"]{background:var(--pp-paper);color:var(--pp-ink);box-shadow:var(--pp-sh-s)}
+.pp-ribbon{display:flex;gap:2px;height:12px;border-radius:8px;overflow:hidden;background:var(--pp-cream);margin-bottom:6px}
+.pp-ribbon span{height:100%;border-radius:3px;position:relative;transition:.3s;opacity:.5}
+.pp-ribbon span.on{opacity:1;box-shadow:inset 0 0 0 2px rgba(255,255,255,.85)}
+.pp-ribbon-lbl{display:flex;justify-content:space-between;font-size:10.5px;color:var(--pp-ink3);margin-bottom:16px}
+.pp-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.pp-grid.pp-grid-weeks{grid-template-columns:repeat(7,1fr)}
+.pp-grid.pp-grid-months{grid-template-columns:repeat(6,1fr)}
+.pp-wd{font-size:10.5px;color:var(--pp-ink3);text-align:center;padding-bottom:2px}
+.pp-day{
+  position:relative;height:clamp(40px,6.4vw,54px);border:0;border-radius:11px;cursor:pointer;font:inherit;
+  background:var(--pp-cream);color:var(--pp-ink2);display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:1px;transition:.25s var(--pp-ease);overflow:hidden}
+.pp-day b{font-size:12px;font-weight:600;line-height:1}
+.pp-day small{font-size:8px;opacity:.8;line-height:1}
+.pp-day:hover{transform:translateY(-2px);box-shadow:var(--pp-sh-s)}
+.pp-day.pp-past{opacity:.72}
+.pp-day.pp-future{opacity:.55}
+.pp-day.pp-milestone{font-weight:700}
+.pp-day.pp-milestone small{color:var(--pp-orange-d);font-weight:800;opacity:1}
+.pp-day.pp-today{background:linear-gradient(140deg,var(--pp-acc),var(--pp-lilac));color:#fff;
+  box-shadow:0 10px 22px -10px var(--pp-lilac-d)}
+.pp-day.pp-today .pp-dotmark{background:#fff}
+.pp-day.pp-sel{outline:2.5px solid var(--pp-ink);outline-offset:-2px}
+.pp-dotmark{position:absolute;bottom:4px;width:5px;height:5px;border-radius:50%;background:var(--pp-acc)}
+.pp-cal-note{margin-top:12px;font-size:11.5px;color:var(--pp-ink3);display:flex;gap:8px;align-items:flex-start}
+.pp-cal-note svg{flex:none;margin-top:3px}
+.pp-legend{display:flex;flex-wrap:wrap;gap:6px 8px;margin-top:12px;font-size:11px;color:var(--pp-ink3)}
+.pp-legend span{background:var(--pp-paper);border:1px solid var(--pp-line);border-radius:999px;padding:3px 11px;display:inline-flex;align-items:center}
+.pp-legend i{width:11px;height:11px;border-radius:4px;display:inline-block;margin-inline-end:5px;vertical-align:-1px}
+.pp-cal-toggle{margin-top:13px;width:100%;display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  font:inherit;font-size:12.5px;font-weight:700;cursor:pointer;border:1.5px dashed var(--pp-line2);
+  background:none;color:var(--pp-ink2);border-radius:14px;padding:11px 14px;transition:.25s var(--pp-ease)}
+.pp-cal-toggle:hover{border-color:var(--pp-acc);color:var(--pp-acc)}
+
+/* ---------- پیشرفت (نمودارها + غربالگری) ---------- */
+.pp-screen{margin-top:12px;background:var(--pp-lilac-s);border-radius:14px;padding:12px 14px}
+.pp-screen h4{margin:0 0 7px;font-size:12.5px;display:flex;align-items:center;gap:7px}
+.pp-screen h4 svg{color:var(--pp-lilac-d)}
+.pp-screen .pp-seg button[aria-pressed="true"]{background:var(--pp-lilac);border-color:var(--pp-lilac);
+  box-shadow:0 10px 18px -10px var(--pp-lilac)}
+
+/* ---------- کارت نیاز و مشارکت همسر ---------- */
+.pp-need{background:var(--pp-cream);border-radius:13px;padding:11px 13px;margin-top:10px;border:1px dashed var(--pp-line2)}
+.pp-need p{font-size:11.8px;color:var(--pp-ink2);white-space:pre-line;line-height:1.95}
+.pp-share{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.pp-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:4px}
+.pp-chip{font:inherit;font-size:11px;font-weight:600;cursor:pointer;border:1px solid var(--pp-line2);
+  max-width:100%;
+  background:var(--pp-paper);color:var(--pp-ink2);border-radius:999px;padding:6px 10px;transition:.25s var(--pp-ease)}
+.pp-chip:hover{border-color:var(--pp-acc);color:var(--pp-acc)}
+.pp-chip[aria-pressed="true"]{background:var(--pp-acc-soft);border-color:var(--pp-acc);color:var(--pp-acc)}
+
+/* ---------- راهنماها ---------- */
+.pp-guides{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+.pp-guide{
+  position:relative;text-align:start;font:inherit;cursor:pointer;border:1px solid var(--pp-line);
+  background:var(--pp-paper);border-radius:18px;padding:0;overflow:hidden;box-shadow:var(--pp-sh-s);
+  transition:.3s var(--pp-ease);display:flex;flex-direction:column}
+.pp-guide:hover{transform:translateY(-3px);box-shadow:var(--pp-sh)}
+.pp-guide img{width:100%;height:96px;object-fit:cover;display:block}
+/* کاشی آیکونی خنثی برای راهنماهای بی‌عکس (مثل صمیمیت) */
+.pp-guide-noimg{width:100%;height:96px;display:grid;place-items:center;gap:6px;
+  background:linear-gradient(135deg,var(--pp-lilac-s),var(--pp-cream));color:var(--pp-lilac-d)}
+.pp-guide-noimg svg{width:28px;height:28px}
+.pp-guide-b{padding:12px 14px 14px}
+.pp-guide-b h3{margin:0 0 3px;font-size:13px;line-height:1.6}
+.pp-guide-b p{font-size:11px;color:var(--pp-ink3);line-height:1.85}
+.pp-guide-tag{position:absolute;top:10px;inset-inline-start:10px;font-size:10.5px;font-weight:700;
+  background:rgba(255,255,255,.92);border-radius:999px;padding:3px 10px;color:var(--pp-ink2)}
+.pp-guide-now{position:absolute;top:10px;inset-inline-end:10px;font-size:10.5px;font-weight:700;
+  background:var(--pp-pink-d);color:#fff;border-radius:999px;padding:3px 10px;box-shadow:0 8px 16px -8px rgba(194,75,126,.85)}
+.pp-guide.pp-related{border-color:var(--pp-sage);box-shadow:0 0 0 3px var(--pp-sage-s)}
+
+/* فهرست فشردهٔ «همه راهنماها» با جست‌وجو */
+.pp-gall{margin-top:12px;background:var(--pp-cream);border-radius:18px;padding:13px 14px}
+.pp-search{display:flex;align-items:center;gap:8px;background:var(--pp-paper);border:1px solid var(--pp-line2);
+  border-radius:11px;padding:7px 10px;margin-bottom:9px;color:var(--pp-ink3)}
+.pp-search input{flex:1;min-width:0;border:0;outline:0;font:inherit;font-size:12px;color:var(--pp-ink);background:none}
+.pp-search input::placeholder{color:var(--pp-ink3)}
+.pp-growls{display:flex;flex-direction:column;gap:7px;max-height:340px;overflow-y:auto;padding-inline-end:2px}
+.pp-growls::-webkit-scrollbar{width:6px}
+.pp-growls::-webkit-scrollbar-thumb{background:var(--pp-line2);border-radius:99px}
+.pp-grow{display:flex;align-items:center;gap:11px;text-align:start;font:inherit;cursor:pointer;
+  border:1px solid var(--pp-line);background:var(--pp-paper);border-radius:13px;padding:9px 12px;transition:.2s var(--pp-ease)}
+.pp-grow:hover{border-color:var(--pp-acc)}
+.pp-grow.hid{display:none}
+.pp-grow-ic{flex:none;width:30px;height:30px;border-radius:10px;display:grid;place-items:center;
+  background:var(--pp-cream);color:var(--pp-ink2)}
+.pp-grow-ic svg{width:15px;height:15px}
+.pp-grow-b{flex:1;min-width:0}
+.pp-grow-b b{display:block;font-size:12px;line-height:1.7}
+.pp-grow-b i{display:block;font-style:normal;font-size:11px;color:var(--pp-ink3);line-height:1.8}
+.pp-grow-tag{flex:none;font-size:10px;font-weight:700;color:var(--pp-ink3);background:var(--pp-cream);
+  border-radius:999px;padding:3px 9px}
+
+/* برگهٔ راهنما */
+.pp-sheet{position:fixed;inset:0;z-index:60;display:flex;align-items:flex-end;justify-content:center;
+  background:rgba(47,42,51,.34);backdrop-filter:blur(3px);opacity:0;pointer-events:none;transition:.32s}
+.pp-sheet.open{opacity:1;pointer-events:auto}
+.pp-sheet-in{width:min(760px,100%);max-height:88vh;overflow:auto;background:#FFFEFB;
+  border-radius:22px 22px 0 0;box-shadow:0 -20px 60px -20px rgba(47,42,51,.4);
+  transform:translateY(22px);transition:.36s var(--pp-ease)}
+.pp-sheet.open .pp-sheet-in{transform:none}
+.pp-sheet-top{position:sticky;top:0;background:var(--pp-paper);padding:16px 20px 12px;border-bottom:1px solid var(--pp-line);
+  display:flex;align-items:center;gap:11px;z-index:2}
+.pp-sheet-top h3{font-size:16.5px;font-weight:800;margin:0;flex:1;line-height:1.5}
+.pp-x{flex:none;width:34px;height:34px;border-radius:50%;border:1px solid var(--pp-line2);background:var(--pp-paper);
+  color:var(--pp-ink2);display:grid;place-items:center;cursor:pointer}
+.pp-x:hover{border-color:var(--pp-rose-d);color:var(--pp-rose-d)}
+.pp-sheet-body{padding:16px 20px 28px}
+.pp-sheet-body img.pp-sheet-img{width:100%;height:190px;object-fit:cover;border-radius:16px;margin-bottom:14px}
+.pp-sheet-icart{width:100%;height:96px;border-radius:14px;margin-bottom:12px;display:grid;place-items:center;gap:7px;
+  background:linear-gradient(135deg,var(--pp-lilac-s),var(--pp-cream));color:var(--pp-lilac-d);
+  font-size:11.5px;font-weight:700}
+.pp-sheet-icart svg{width:38px;height:38px}
+.pp-g-block{background:var(--pp-cream);border-radius:13px;padding:11px 13px;margin-bottom:10px}
+.pp-g-block.g-normal{background:var(--pp-sage-s)}
+.pp-g-block.g-help{background:var(--pp-paper);border:1px solid var(--pp-line)}
+.pp-g-block.g-seek{background:var(--pp-rose-s)}
+.pp-g-block h4{margin:0 0 7px;font-size:13.5px;display:flex;align-items:center;gap:8px}
+.pp-g-block ul{display:flex;flex-direction:column;gap:5px;font-size:12px;color:var(--pp-ink2);line-height:1.95}
+.pp-g-lead{font-size:12.5px;color:var(--pp-ink2);margin-bottom:10px;line-height:2}
+.pp-g-src{font-size:11.5px;color:var(--pp-ink3);margin-top:6px}
+.pp-g-src a{color:var(--pp-teal);text-decoration:underline;text-underline-offset:3px}
+
+/* ---------- دکمهٔ ثابت «علائم خطر» ---------- */
+.pp-danger-fab{position:fixed;bottom:20px;inset-inline-end:18px;z-index:55;display:inline-flex;align-items:center;gap:7px;
+  font:inherit;font-size:12px;font-weight:800;cursor:pointer;color:#fff;border:0;border-radius:999px;
+  padding:11px 15px;background:linear-gradient(135deg,var(--pp-danger),var(--pp-danger-d));
+  box-shadow:0 18px 36px -14px rgba(160,60,80,.65);transition:.28s var(--pp-ease)}
+.pp-danger-fab:hover{transform:translateY(-2px)}
+.pp-danger-fab svg{width:17px;height:17px}
+.pp-flagsheet .pp-sheet-in{max-height:88vh}
+.pp-sheet-top-danger{background:var(--pp-danger-s);border-bottom-color:rgba(194,84,104,.3)}
+.pp-sheet-top-danger h3{color:var(--pp-danger-d)}
+.pp-sheet-top-danger svg{color:var(--pp-danger-d)}
+.pp-flags-sub{font-size:11.8px;color:var(--pp-danger-d);margin-bottom:11px}
+.pp-flag{display:flex;gap:10px;align-items:flex-start;padding:7px 0;border-top:1px dashed rgba(194,84,104,.25)}
+.pp-flag:first-of-type{border-top:0}
+.pp-flag b{font-size:12.3px;color:var(--pp-danger-d)}
+.pp-flag span{font-size:12.5px;color:var(--pp-ink2)}
+.pp-flag .pp-fi{flex:none;width:26px;height:26px;border-radius:9px;background:rgba(194,84,104,.14);
+  color:var(--pp-danger-d);display:grid;place-items:center;margin-top:2px}
+
+/* ---------- منابع و پاورقی ---------- */
+.pp-src{background:var(--pp-paper);backdrop-filter:blur(8px);border:1px solid var(--pp-line);border-radius:15px;padding:12px 14px;font-size:11.5px}
+.pp-src summary{cursor:pointer;font-weight:700;list-style:none;display:flex;align-items:center;gap:8px}
+.pp-src summary::-webkit-details-marker{display:none}
+.pp-src ol{margin:10px 0 0;padding-inline-start:18px;display:flex;flex-direction:column;gap:6px;line-height:1.95}
+.pp-src a{color:var(--pp-teal);text-decoration:underline;text-underline-offset:3px;word-break:break-word}
+.pp-disc{margin-top:12px;font-size:11px;color:var(--pp-ink3);display:flex;gap:8px;align-items:flex-start;
+  border-inline-start:2px solid var(--pp-lemon);padding-inline-start:10px}
+.pp-disc svg{flex:none;margin-top:4px;color:var(--pp-lemon-d)}
+.pp-foot{text-align:center;font-size:11.5px;color:var(--pp-ink3);margin-top:26px;line-height:2}
+
+/* ---------- توست ---------- */
+.pp-toast{position:fixed;inset-inline:0;bottom:84px;margin:0 auto;width:max-content;max-width:88vw;z-index:70;
+  display:flex;align-items:center;gap:10px;background:#2F2A33;color:#fff;border-radius:15px;padding:12px 19px;
+  font-size:13px;font-weight:600;box-shadow:0 22px 44px -18px rgba(47,42,51,.8);
+  opacity:0;transform:translateY(14px);pointer-events:none;transition:.4s var(--pp-ease)}
+.pp-toast.show{opacity:1;transform:none}
+.pp-toast svg{color:#9ED9C6;flex:none}
+
+/* نوار دادهٔ نمایشی */
+.pp-demobar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--pp-orange-s);
+  border:1px dashed rgba(196,111,51,.45);border-radius:16px;padding:11px 15px;margin-bottom:18px;
+  font-size:12.5px;color:var(--pp-orange-d)}
+.pp-demobar select{font:inherit;font-size:12.5px;padding:6px 10px;border-radius:10px;
+  border:1px solid rgba(196,111,51,.4);background:#fff;color:var(--pp-ink)}
+.pp-demobar .pp-spacer{margin-inline-start:auto}
+
+/* ---------- نمودارها (بهبود من / رشد نوزاد) ---------- */
+.pp-ch-tabs{margin:0 0 14px;width:max-content;max-width:100%}
+
+/* ---------- artifact نمودار: قاب ظریف + متن کوچک (هیچ‌وقت کشیده نمی‌شود) ---------- */
+.pp-ch-art{border:1px solid var(--pp-line2);border-radius:17px;padding:13px 13px 11px;
+  background:linear-gradient(180deg,color-mix(in srgb,var(--pp-acc) 4%,var(--pp-paper)),var(--pp-paper) 34%);
+  box-shadow:var(--pp-sh-s)}
+.pp.pp-night .pp-ch-art{
+  background:linear-gradient(180deg,color-mix(in srgb,var(--pp-acc) 8%,var(--pp-paper)),var(--pp-paper) 40%)}
+.pp-ch-art-top{display:flex;align-items:center;gap:9px;margin-bottom:10px;flex-wrap:wrap}
+.pp-ch-art-top b{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:800}
+.pp-ch-art-top b svg{color:var(--pp-acc)}
+.pp-ch-art-top span{margin-inline-start:auto;font-size:11px;font-weight:600;color:var(--pp-ink3);
+  background:var(--pp-cream);border-radius:999px;padding:4px 10px}
+.pp svg.pp-ch{width:100%;height:auto;max-width:540px;margin:0 auto;flex:none;display:block;overflow:visible}
+.pp-ch text{font-family:inherit;font-size:10.5px;fill:var(--pp-ink3)}
+.pp-ch .pp-ch-val{font-size:12px;font-weight:700;fill:var(--pp-blue-d)}
+.pp-ch-lead{margin:4px 0 10px;font-size:12px;color:var(--pp-ink2);line-height:1.9}
+.pp-ch-leg{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:11px;color:var(--pp-ink2);margin:0 0 6px}
+.pp-ch-leg span{display:inline-flex;align-items:center;gap:6px}
+.pp-ch-sw{width:11px;height:11px;border-radius:3px;display:inline-block}
+.pp-ch-dash{width:16px;border-top:2px dashed var(--pp-ink3);display:inline-block}
+.pp-ch-ln{width:16px;border-top:3px solid;display:inline-block;border-radius:2px}
+.pp-ch-ln.dash{border-top-style:dashed}
+.pp-ch-tri{width:0;height:0;border-inline:5px solid transparent;border-bottom:9px solid var(--pp-danger-d);display:inline-block}
+.pp-ch-note{margin-top:10px;border-radius:12px;padding:9px 11px;font-size:11.8px;line-height:1.85;background:var(--pp-cream);color:var(--pp-ink2)}
+.pp-ch-note.lv-care{background:var(--pp-orange-s);color:var(--pp-ink)}
+.pp-ch-form{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:12px}
+.pp-ch-in{flex:1 1 150px;min-width:0;font:inherit;font-size:12.5px;padding:9px 11px;border-radius:11px;
+  border:1px solid var(--pp-line2);background:var(--pp-paper);color:var(--pp-ink)}
+.pp-ch-in:focus{outline:none;border-color:var(--pp-acc)}
+.pp-ch-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;font-size:12px;color:var(--pp-ink2)}
+.pp-ch-list span{background:var(--pp-cream);border-radius:999px;padding:3px 6px 3px 10px;display:inline-flex;align-items:center;gap:4px}
+.pp-ch-list button{border:0;background:none;color:var(--pp-ink3);font-size:16px;line-height:1;cursor:pointer;padding:2px 5px}
+
+/* ---------- شیت چاپ «خلاصهٔ ویزیت» — گره‌ای بیرون از .pp روی body ----------
+   روی صفحه: پوشش مودال؛ در چاپ: تنها محتوای قابل چاپ (body.pp-printing). */
+.pp-printwrap{display:none;
+  --pp-acc:#8A6C3B; --pp-acc-2:#B08D57; --pp-ink:#3A3230; --pp-ink2:#6E645F;
+  --pp-line:rgba(0,0,0,.12); --pp-acc-soft:rgba(176,141,87,.12);
+  --pp-ease:cubic-bezier(.4,0,.2,1)}
+.pp-printwrap svg{width:18px;height:18px;flex:none;display:block}
+.pp-printwrap.open{display:block;position:fixed;inset:0;z-index:120;overflow:auto;
+  background:rgba(40,30,25,.45);backdrop-filter:blur(3px)}
+.pp-print-back{position:absolute;inset:0}
+.pp-print-sheet{position:relative;max-width:780px;margin:26px auto 40px;background:#fff;border-radius:18px;
+  padding:24px 28px;box-shadow:0 40px 90px -30px rgba(0,0,0,.5)}
+.pp-print-actions{display:flex;gap:9px;justify-content:flex-end;margin-bottom:14px}
+.pp-print-body h1{font-size:20px;margin:0 0 4px;color:#3A3230}
+.pp-print-head p{font-size:12px;color:#777;margin:0 0 16px}
+.pp-print-body h3{font-size:14px;margin:18px 0 8px;border-bottom:1px solid #eee;padding-bottom:5px;color:#3A3230}
+.pp-print-body table{width:100%;border-collapse:collapse;font-size:11.5px;margin:6px 0 4px;color:#3A3230}
+.pp-print-body th,.pp-print-body td{border:1px solid #e5e0da;padding:5px 7px;text-align:right}
+.pp-print-body th{background:#f6f3ee;font-weight:700}
+.pp-print-body tr.fl td{background:#fdeef2}
+.pp-print-body .pp-print-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.pp-print-body .pp-print-grid p{font-size:12px;line-height:2;margin:0;color:#444}
+.pp-print-body .warn{color:#8E1F45;font-weight:700;font-size:12.5px}
+.pp-print-body .disc{font-size:10.5px;color:#888;margin-top:16px;border-top:1px dashed #ddd;padding-top:8px;line-height:1.9}
+@media print{
+  body.pp-printing > *:not(.pp-printwrap){display:none!important}
+  body.pp-printing{background:#fff}
+  body.pp-printing .pp-printwrap{display:block!important;position:static;overflow:visible;background:#fff}
+  body.pp-printing .pp-print-back{display:none}
+  body.pp-printing .pp-print-sheet{max-width:none;margin:0;box-shadow:none;border-radius:0;padding:0}
+  body.pp-printing .pp-print-actions{display:none!important}
+}
+
+/* ---------- شمارندهٔ پوشک خیس ---------- */
+.pp-diaper{display:inline-flex;align-items:center;align-self:flex-start;border:1px solid var(--pp-line2);
+  border-radius:11px;overflow:hidden;background:var(--pp-paper)}
+.pp.pp-night .pp-diaper{background:var(--pp-cream)}
+.pp-diaper button{font:inherit;font-size:17px;font-weight:800;width:42px;height:36px;border:0;background:none;
+  cursor:pointer;color:var(--pp-gold-d);transition:.2s var(--pp-ease);display:grid;place-items:center}
+.pp-diaper button:hover{background:var(--pp-acc-soft)}
+.pp-diaper b{min-width:42px;text-align:center;font-size:13.5px;border-inline:1px solid var(--pp-line)}
+.pp-diaper-hint{font-size:11.5px;color:var(--pp-ink3);line-height:1.8}
+
+/* ---------- تاریخچهٔ غربالگری (PHQ-2 تکرارشونده) ---------- */
+.pp-screen-hist{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:2px 0 8px}
+.pp-screen-hist-t{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;color:var(--pp-ink3);font-weight:700}
+.pp-hpill{font-size:10.5px;font-weight:700;background:var(--pp-gold-s);color:var(--pp-ink2);border-radius:999px;padding:4px 10px}
+.pp-hpill.hot{background:var(--pp-lemon-s);color:var(--pp-ink)}
+.pp-screen-due{margin:2px 0 8px;display:flex;gap:8px;align-items:flex-start;font-size:12px;line-height:1.9;
+  color:var(--pp-ink2);background:var(--pp-cream);border-radius:12px;padding:9px 12px}
+.pp-screen-due svg{color:var(--pp-acc);flex:none;margin-top:2px}
+.pp-screen-due b{color:var(--pp-acc)}
+.pp-screen-last{margin:-2px 0 8px;font-size:11.5px;color:var(--pp-ink3)}
+
+/* ---------- ردیف «خلاصهٔ ویزیت» ---------- */
+.pp-visit-row{margin-top:12px;display:flex;align-items:center;gap:11px;flex-wrap:wrap;
+  background:var(--pp-cream);border:1px dashed var(--pp-line2);border-radius:13px;padding:10px 12px}
+.pp-visit-row > span{display:flex;align-items:flex-start;gap:9px;font-size:11.8px;color:var(--pp-ink2);line-height:1.8}
+.pp-visit-row > span > svg{color:var(--pp-acc);flex:none;margin-top:2px}
+.pp-visit-row b{color:var(--pp-ink);font-size:12.3px}
+.pp-visit-row i{font-style:normal;font-size:11.5px;color:var(--pp-ink3)}
+.pp-visit-row button{margin-inline-start:auto}
+.pp-ch-foot{margin:10px 0 0;font-size:11.5px;line-height:1.8;color:var(--pp-ink3)}
+.pp-ch-foot a{color:var(--pp-teal);text-decoration:underline;text-underline-offset:3px}
+.pp-link{border:0;background:none;padding:0;font:inherit;color:var(--pp-acc);text-decoration:underline;cursor:pointer}
+
+/* ---------- واکنش‌گرا ---------- */
+@media (max-width:760px){
+  .pp-ch text{font-size:14px}
+  .pp-ch .pp-ch-val{font-size:15px}
+  .pp-ch-art{padding:13px 11px 10px}
+  .pp-card{padding:16px 15px;border-radius:19px}
+  .pp-week{gap:4px}
+  .pp-week .pp-day b{font-size:11.5px}
+  .pp-week .pp-day small{display:none}
+  .pp-grid{gap:4px}
+  .pp-day b{font-size:11.5px}
+  .pp-day small{display:none}
+  .pp-guides{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+  .pp-guide img,.pp-guide-noimg{height:96px}
+  .pp-sheet-in{max-height:92vh;border-radius:20px 20px 0 0}
+  .pp-head{padding:12px 14px}
+  .pp-tool span{display:none}
+  .pp-more{margin-inline-start:0;width:100%;justify-content:center}
+}
+@media (max-width:460px){
+  .pp-wrap{padding:12px 10px 96px}
+  .pp-seg button{padding:8px 11px;font-size:12px}
+  .pp-grid-months{grid-template-columns:repeat(4,1fr)}
+  .pp-danger-fab{bottom:16px;inset-inline-end:12px;padding:12px 15px}
+}
+@media (prefers-reduced-motion:reduce){
+  .pp *,.pp *::before,.pp *::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+@media print{
+  .pp-demobar,.pp-sheet,.pp-toast,.pp-cal-range,.pp-ci-actions,.pp-danger-fab{display:none!important}
+  .pp-card,.pp-cc{box-shadow:none;break-inside:avoid}
+}
+
+/* ============================================================
+   v5 — ورودی تصویری: شش عکس کوچک هم‌راستا + مینی‌نمودار + دلگرمی
+   ============================================================ */
+.pp-entrance{margin-top:12px;background:var(--pp-paper);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border:1px solid var(--pp-line);border-radius:18px;padding:12px 14px 14px;box-shadow:var(--pp-sh-s)}
+.pp-ent-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;padding:1px 2px 10px}
+.pp-ent-head b{font-size:14px;font-weight:800;color:var(--pp-ink)}
+.pp-ent-head span{font-size:10.5px;color:var(--pp-ink3)}
+.pp-ent-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;max-width:600px;margin:0 auto}
+.pp-photo{position:relative;margin:0;border-radius:12px;overflow:hidden;border:1.5px solid var(--pp-line2);
+  background:var(--pp-cream);box-shadow:0 10px 22px -16px rgba(120,66,92,.55);aspect-ratio:4/3}
+.pp-photo img{width:100%;height:100%;object-fit:cover;display:block}
+/* قاب‌های رنگی — چرخش صورتی/آبی/یاسی */
+.pp-ent-grid .pp-photo:nth-child(3n+1){border-color:rgba(224,105,154,.55)}
+.pp-ent-grid .pp-photo:nth-child(3n+2){border-color:rgba(79,147,200,.55)}
+.pp-ent-grid .pp-photo:nth-child(3n){border-color:rgba(138,99,201,.55)}
+.pp-photo figcaption{position:absolute;inset-inline:6px;bottom:6px;display:flex;justify-content:center;
+  background:rgba(255,252,250,.9);backdrop-filter:blur(4px);border:1px solid var(--pp-line);
+  border-radius:999px;padding:2px 9px;font-size:9.5px;font-weight:700;color:var(--pp-pink-d);
+  box-shadow:0 6px 14px -8px rgba(120,66,92,.45)}
+.pp-photo-tape{position:absolute;top:5px;inset-inline-start:12%;width:44px;height:11px;z-index:2;
+  background:rgba(224,105,154,.4);border:1px dashed rgba(255,255,255,.6);border-radius:2px;
+  transform:rotate(-3.5deg);box-shadow:0 2px 5px rgba(120,66,92,.2)}
+.pp-ent-grid .pp-photo:nth-child(3n+2) .pp-photo-tape{background:rgba(79,147,200,.4)}
+.pp-ent-grid .pp-photo:nth-child(3n) .pp-photo-tape{background:rgba(138,99,201,.4);transform:rotate(2.5deg);
+  inset-inline-start:auto;inset-inline-end:10%}
+
+/* مینی‌نمودار ورودی + دلگرمی */
+.pp-ent-art{margin-top:11px;border:1px solid var(--pp-line2);border-radius:16px;padding:11px 12px 12px;
+  background:linear-gradient(160deg,color-mix(in srgb,var(--pp-lilac) 7%,var(--pp-paper)),var(--pp-paper) 50%)}
+.pp-ent-art-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.pp-ent-art-top b{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:800;color:var(--pp-lilac-d)}
+.pp-ent-art-top b svg{color:var(--pp-lilac)}
+.pp-ent-art-chips{margin-inline-start:auto;display:flex;gap:4px;background:var(--pp-cream);border-radius:11px;padding:3px}
+.pp-ent-art-chips button{font:inherit;font-size:10.5px;font-weight:700;cursor:pointer;border:0;border-radius:8px;
+  padding:5px 10px;background:none;color:var(--pp-ink3);transition:.22s var(--pp-ease)}
+.pp-ent-art-chips button:hover{color:var(--pp-pink-d)}
+.pp-ent-art-chips button[aria-pressed="true"]{background:var(--pp-paper);color:var(--pp-pink-d);box-shadow:var(--pp-sh-s)}
+.pp svg.pp-ch.pp-mini{max-width:330px}
+.pp-mini-foot{margin:7px 2px 0;font-size:10.5px;color:var(--pp-ink3);text-align:center;line-height:1.8}
+.pp-mini-lead{font-size:11.8px;color:var(--pp-ink2);text-align:center;padding:4px 2px}
+.pp-mini-act{display:flex;justify-content:center;padding:4px 0 2px}
+.pp-cheer{margin-top:10px;display:flex;gap:8px;align-items:center;border-radius:12px;padding:8px 11px;
+  background:linear-gradient(120deg,var(--pp-pink-s),var(--pp-lilac-s));color:var(--pp-ink2);
+  font-size:11.8px;line-height:1.8}
+.pp-cheer svg{flex:none;width:15px;height:15px;color:var(--pp-pink)}
+
+/* عکس پراکندهٔ بخش «مراقبت من» */
+.pp-care-flex{display:flex;gap:12px;align-items:stretch}
+.pp-photo-embed{flex:none;width:128px;height:158px;aspect-ratio:auto;border-radius:14px;
+  border-color:rgba(224,105,154,.5)}
+.pp-photo-embed img{height:100%}
+.pp-photo-embed figcaption{font-size:9px}
+.pp-care-main{flex:1;min-width:0}
+
+@media (max-width:560px){
+  .pp-ent-grid{grid-template-columns:repeat(2,1fr)}
+  .pp-care-flex{flex-direction:column}
+  .pp-photo-embed{width:100%;height:120px}
+}
+
+/* ============================================================
+   v4 — چهار بخش تب‌شده
+   ============================================================ */
+.pp-tabbar{display:flex;gap:4px;margin-top:12px;background:var(--pp-paper);backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);border:1px solid var(--pp-line);border-radius:15px;padding:4px;box-shadow:var(--pp-sh-s)}
+.pp-tab{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:5px;border:0;background:transparent;
+  border-radius:11px;padding:8px 4px;min-height:38px;font:inherit;font-size:11px;font-weight:700;color:var(--pp-ink2);
+  cursor:pointer;transition:.22s var(--pp-ease)}
+.pp-tab svg{width:14px;height:14px}
+.pp-tabbar .pp-tab:nth-child(1):hover{color:var(--pp-pink-d);background:var(--pp-pink-s)}
+.pp-tabbar .pp-tab:nth-child(2):hover{color:var(--pp-blue-d);background:var(--pp-blue-s)}
+.pp-tabbar .pp-tab:nth-child(3):hover{color:var(--pp-orange-d);background:var(--pp-orange-s)}
+.pp-tabbar .pp-tab:nth-child(4):hover{color:var(--pp-lilac-d);background:var(--pp-lilac-s)}
+.pp-tab.on{background:linear-gradient(135deg,var(--pp-lilac) 0%,var(--pp-pink-d) 100%);color:#fff;
+  box-shadow:0 8px 16px -9px rgba(138,99,201,.7)}
+.pp-tabpanes{margin-top:14px}
+.pp-pane{display:none}
+.pp-pane > .pp-sec:first-child{margin-top:0}
+.pp-tabpanes[data-active="today"] .pp-pane[data-pp-pane="today"],
+.pp-tabpanes[data-active="charts"] .pp-pane[data-pp-pane="charts"],
+.pp-tabpanes[data-active="care"] .pp-pane[data-pp-pane="care"],
+.pp-tabpanes[data-active="guides"] .pp-pane[data-pp-pane="guides"]{display:block;animation:ppPaneIn .32s var(--pp-ease)}
+@keyframes ppPaneIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (max-width:460px){
+  .pp-tab{flex-direction:column;gap:3px;font-size:9.5px;padding:7px 2px}
+}
+
+/* ============================================================
+   v4 — کارت هشدار نرم بالای «امروز» (قرمز فقط برای ایمنی)
+   ============================================================ */
+.pp-alert{display:flex;gap:11px;align-items:flex-start;border-radius:15px;padding:12px 14px;margin:0 0 12px;
+  border:1px solid;animation:ppPaneIn .3s var(--pp-ease)}
+.pp-alert b{font-size:12.8px;display:block}
+.pp-alert p{font-size:11.3px;margin-top:3px;line-height:1.85}
+.pp-alert-ic{flex:none;width:34px;height:34px;border-radius:11px;display:grid;place-items:center;margin-top:1px}
+.pp-alert-ic svg{width:17px;height:17px}
+.pp-alert-acts{display:flex;gap:8px;margin-top:9px;flex-wrap:wrap}
+.pp-alert-btn{text-decoration:none;min-height:0}
+a.pp-alert-btn{display:inline-flex;align-items:center;justify-content:center;color:#fff}
+.pp-alert.lv-urgent .pp-alert-btn{background:var(--pp-danger);box-shadow:0 10px 18px -10px var(--pp-danger-d)}
+.pp-alert.lv-urgent .pp-alert-btn.pp-btn-ghost{background:transparent;color:var(--pp-danger-d);border:1px solid var(--pp-danger)}
+.pp-alert.lv-care .pp-alert-btn{background:var(--pp-orange);box-shadow:0 10px 18px -10px var(--pp-orange-d)}
+.pp-alert.lv-care .pp-alert-btn.pp-btn-ghost{background:transparent;color:var(--pp-orange-d);border:1px solid var(--pp-orange)}
+.pp-alert.lv-urgent{background:var(--pp-danger-s);border-color:rgba(194,84,104,.4);color:var(--pp-danger-d)}
+.pp-alert.lv-urgent .pp-alert-ic{background:var(--pp-danger);color:#fff}
+.pp-alert.lv-urgent p{color:var(--pp-ink2)}
+.pp-alert.lv-care{background:var(--pp-orange-s);border-color:rgba(226,137,75,.45);color:var(--pp-orange-d)}
+.pp-alert.lv-care .pp-alert-ic{background:var(--pp-orange);color:#fff}
+.pp-alert.lv-care p{color:var(--pp-ink2)}
+.pp.pp-night .pp-alert.lv-urgent{background:rgba(224,138,156,.12);border-color:rgba(224,138,156,.4);color:var(--pp-danger-d)}
+.pp.pp-night .pp-alert.lv-care{background:rgba(237,169,111,.12);border-color:rgba(237,169,111,.4);color:var(--pp-orange-d)}
+
+/* ============================================================
+   v4 — حالت شب: سطح تیره برای چیپ‌ها و کنترل‌ها (خوانایی شبانه)
+   ============================================================ */
+.pp.pp-night .pp-chip{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.16);color:var(--pp-ink2)}
+.pp.pp-night .pp-chip[aria-pressed="true"]{background:var(--pp-gold-s);border-color:var(--pp-gold);color:var(--pp-gold-d)}
+.pp.pp-night .pp-seg button{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.14);color:var(--pp-ink3)}
+.pp.pp-night .pp-seg button:hover{color:var(--pp-gold-d)}
+.pp.pp-night .pp-seg button[aria-pressed="true"]{background:var(--pp-gold-d);border-color:var(--pp-gold-d);color:#252028;
+  box-shadow:0 8px 16px -9px rgba(0,0,0,.6)}
+.pp.pp-night .pp-tabbar{background:rgba(46,40,49,.86)}
+.pp.pp-night .pp-tab{color:var(--pp-ink3)}
+.pp.pp-night .pp-tab.on{color:#252028;background:linear-gradient(135deg,var(--pp-lilac),var(--pp-pink))}
+.pp.pp-night .pp-entrance{background:rgba(46,40,49,.86)}
+.pp.pp-night .pp-photo{background:var(--pp-cream);border-color:rgba(255,255,255,.14)}
+.pp.pp-night .pp-photo figcaption{background:rgba(37,32,40,.85);color:var(--pp-gold-d)}
+.pp.pp-night .pp-head-day i{color:var(--pp-ink3)}
+.pp.pp-night .pp-hpill{background:var(--pp-gold-s);color:var(--pp-ink2)}
+.pp.pp-night .pp-ent-art{background:rgba(46,40,49,.86)}
+.pp.pp-night .pp-cheer{background:rgba(238,143,180,.12)}
+.pp.pp-night .pp-cheer svg{color:var(--pp-pink)}
+.pp.pp-night .pp-cal-art{background:linear-gradient(160deg,color-mix(in srgb,var(--pp-acc) 16%,var(--pp-paper)),var(--pp-paper) 46%)}
+.pp.pp-night .pp-ent-art-chips{background:rgba(255,255,255,.06)}
+.pp.pp-night .pp-ent-art-chips button{color:var(--pp-ink3)}
+.pp.pp-night .pp-ent-art-chips button[aria-pressed="true"]{background:rgba(255,255,255,.1);color:var(--pp-pink-d)}
+.pp.pp-night .pp-legend span{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.14)}
+.pp.pp-night .pp-photo-embed{border-color:rgba(238,143,180,.45)}
+
+/* ============================================================
+   [۲٫۴] پل کوتاه «مراقبت من» در تب «امروز» — ظریف، نه کارت بزرگ
+   محتوای حمایتی به تب «مراقبت من» منتقل شده؛ فقط مسیر دسترسی.
+   ============================================================ */
+.pp-carebridge{
+  display:flex;align-items:center;gap:11px;width:100%;text-align:start;font:inherit;cursor:pointer;
+  margin-top:16px;padding:11px 13px;border-radius:16px;
+  border:1px dashed color-mix(in srgb,var(--pp-lilac) 32%,transparent);
+  background:linear-gradient(150deg,color-mix(in srgb,var(--pp-lilac) 6%,var(--pp-paper)) 0%,var(--pp-paper) 72%);
+  transition:.24s var(--pp-ease)}
+.pp-carebridge:hover{transform:translateY(-1px);border-style:solid;box-shadow:var(--pp-sh-s)}
+.pp-carebridge-ic{flex:none;width:30px;height:30px;border-radius:10px;display:grid;place-items:center;
+  background:var(--pp-lilac-s);color:var(--pp-lilac-d)}
+.pp-carebridge-ic svg{width:15px;height:15px}
+.pp-carebridge-t{flex:1;min-width:0}
+.pp-carebridge-t b{display:block;font-size:12.3px;font-weight:800;color:var(--pp-ink);line-height:1.65}
+.pp-carebridge-t i{display:block;font-style:normal;font-size:10.6px;color:var(--pp-ink3);line-height:1.75}
+.pp-carebridge-go{flex:none;display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:800;
+  color:var(--pp-lilac-d);background:var(--pp-lilac-s);border-radius:999px;padding:6px 11px;white-space:nowrap}
+.pp-carebridge-go svg{width:12px;height:12px}
+.pp.pp-night .pp-carebridge{background:rgba(46,40,49,.86);border-color:rgba(179,148,227,.32)}
+.pp.pp-night .pp-carebridge-go{color:var(--pp-lilac-d)}
+@media (max-width:560px){
+  .pp-carebridge{gap:9px;padding:10px 11px}
+  .pp-carebridge-t i{display:none}
+  .pp-carebridge-go{padding:5px 9px}
+}

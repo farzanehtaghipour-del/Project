@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="description" content="ارزیابی، آگاهی و برنامه‌های سلامت برای زنان و مردان — ابزارهای غربالگری استاندارد با رابط فارسی و RTL.">
+<title>سَمن | پلتفرم پیشرفته سلامت و آگاهی‌بخشی</title>
+<!-- فونت وزیرمتن به‌صورت محلی (woff2 در fonts/) بارگذاری می‌شود — آفلاین کامل، بدون CDN -->
+<link rel="preload" href="fonts/Vazirmatn-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/Vazirmatn-ExtraBold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/Lalezar-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="style.css?v=14">
+<link rel="stylesheet" href="cycle.css?v=20">
+<link rel="stylesheet" href="cx-calendar-skin.css?v=4">
+<!-- بازطراحی آرتیفکت تقویم + نمودار الگو + راهنمای مراحل (بعد از پوستهٔ قدیمی، طبق INTEGRATION پکیج) -->
+<link rel="stylesheet" href="cx-cycle-art.css?v=7">
+<link rel="stylesheet" href="symptom-journal.css?v=11">
+<link rel="stylesheet" href="sj-books.css?v=6">
+<link rel="stylesheet" href="edu.css?v=1">
+<link rel="stylesheet" href="mcal.css?v=2">
+<link rel="stylesheet" href="fslib.css?v=1">
+<link rel="stylesheet" href="pp-companion.css?v=6">
+<!-- بخش حمایت عاطفی مادر «من هم مهمم» — از متغیرهای تم همراه مادر استفاده می‌کند -->
+<link rel="stylesheet" href="pp-support.css?v=7">
+</head>
+<body>
+<div id="app"></div>
+<!-- دفترچهٔ علائم و همراه مادر: گره‌های پایدار بیرون از #app — render() هر بار #app را از نو می‌سازد،
+     پس این ماژول‌ها این‌جا نصب و در نمای خودشان «جابه‌جا» می‌شوند، نه بازسازی (الگوی INTEGRATION.md §۵) -->
+<div id="symJournal" hidden></div>
+<div id="sjBooks" hidden></div>
+<div id="ppHost" hidden></div>
+
+<!--
+  ترتیب بارگذاری مهم است:
+    1) config.js      → راه‌کارها، آیکون‌ها، گزینه‌های مشترک و ثابت‌ها
+    2) questions.js   → بانک پرسش‌ها و داده‌های پرسش‌نامه‌ها
+    3) scoring.js     → موتورهای نمره‌دهی و منطق محاسباتی
+    4) edu.js         → سیستم آموزشی مشترک (بلوک‌ها و گام‌ها)
+    5) mcal-data.js   → کتابخانهٔ محتوای «تقویم سلامت مردان»
+    6) mcal.js        → موتور گزارش/توصیه و نماهای تقویم سلامت مردان
+    7) fslib.js       → گزارش هوشمند سلامت جنسی زنان (FSFI + FSDS-R)
+    8) app.js         → وضعیت، مسیریابی، رندر، نماها و رویدادها — v45: کلیک روی روز تقویم دیگر دفترچهٔ علائم را خودکار باز نمی‌کند (درخواست کارفرما)، جملهٔ «دفترچهٔ علائم من» به راهنمای زیر ثبت شروع اضافه شد
+    9) symptom-journal.js → ماژول مستقل «دفترچهٔ علائم من» — v18: هشدار جدی‌تر خون‌ریزی زیاد و کارت پیگیری با نشانه‌های داده‌ای چرخه (پریود >۷ روز، چرخهٔ بیرون ۲۱..۳۵، نبود پریود >۹۰ روز)، اصلاح نقطهٔ طب فشاری SP6، نرم‌شدن ادعاهای ورزش، گام‌های باز در کارت‌های هشدار
+    10) symjournal-adapter.js → آداپتور اتصال دفترچه به cyDb/cxModel (پس از app.js)
+    11) sj-books.js → دفترچه‌های تغذیه و دمنوش‌ها (پس از دفترچهٔ علائم؛ از RECS آن می‌خواند) — v6: جلدهای جدید با عکس کارفرما (Healthy Soup Skin / Herbal Tea Skin) و تم سبز
+    12) pp-content.js → محتوای «همراه مادر»: فازها، کارت‌های روز، ۱۸ راهنما، چک‌این، قواعد توصیه، علائم هشدار، PHQ-2، برچسب‌های کوتاه کمک همسر + دلگرمی‌ها — v4: پالت شاد صورتی/آبی/نارنجی/یاسیِ پررنگ
+    13) pp-companion.js → منطق و رندر «همراه مادر» — v4 (نسخهٔ ۲.۴): محتوای حمایتی «من هم مهمم» به تب «مراقبت من» منتقل شد و در تب «امروز» فقط پل کوتاه «مراقبت از خودم» مانده؛ شش عکس کوچک هم‌راستا در ورودی + مینی‌نمودار (بهبود من/رشد نوزاد) و دلگرمی زیر عکس‌ها، آرتیفکت قاب‌دار تقویم، پس‌زمینهٔ ابریشمی کل بخش، چهار بخش تب‌شده، کارت هشدار نرم با تماس ۱۱۵، پشتیبان‌گیری/بازیابی، حالت شب با چیپ‌های خوانا
+    14) pp-adapter.js → آداپتور اتصال «همراه مادر» به JAL/تقویم سَمن + مهاجرت از نسخهٔ قدیم (پس از app.js)
+    15) pp-support-content.js → کتابخانهٔ محتوای «من هم مهمم» (حمایت عاطفی مادر) — نسخهٔ ۲٫۳: ۴ کارت، ۳۵ زیرموضوع (موضوع‌های تازهٔ ۲٫۲: بستری‌بودن نوزاد، از دست دادن نوزاد — هر دو manualOnly، فقط با انتخاب صریح موضوع)، ۱۴ پرامپت دفترچه، ۱۴ آیتم روزانه، سه سطح ایمنی، جدول و اعداد معتبر + ACKS، TIME_LINES، CALM و CRISIS_LINES (شماره‌های حمایتی رایگان، قابل‌تغییر برای کشورهای دیگر) + نگاشت تصاویر فلش‌کارت‌ها (PP_SUPPORT_CARD_IMG — فعلاً placeholder از img/pp)
+    16) pp-support.js → منطق و رندر «من هم مهمم» — v2.5.0: بخش به تب «مراقبت من» منتقل شد و صفحهٔ اصلی آن با چهار ورودی بصری بازطراحی شد (وقتی دلم می‌گیره ← وقتی به خودم شک می‌کنم ← بدنم هم به زمان نیاز داره ← حرف دلم رو بنویسم، هر کدام با شمارندهٔ موضوع‌ها)؛ جریان فلش‌کارت طبق ۲٫۴: فهرست موضوع‌های سه بخش متن ساده (بدون عکس) و با لمس هر موضوع، فلش‌کارت «کارت برگردان» همان موضوع تکی باز می‌شود (روی کارت: عکس + چیپ + عنوان؛ پشت: «شاید…» + نگاه تازه + یک قدم کوچک + دکمهٔ متن کامل؛ چرخش سه‌بعدی با لمس/Enter)، ورود سریع «الان چه حالی داری؟» با جملهٔ به رسمیت‌شناختن، شخصی‌سازی از دادهٔ مادر، «یادش می‌ماند»، سه سطح ایمنی، بررسی ایمنی دو سطحی دفترچه (riskTier)، لینک «اگر کمک فوری لازم داری»، manualOnly، خواندن صوتی، شیت «چرا این‌جا؟» + تمرین تنفس، قلب «به دلم نشست»، جملهٔ زمان‌آگاه، پل نرم به PHQ-2، جملهٔ پایانی؛ + شنونده‌های روی ریشهٔ #ppHost و مسیر مستقیم دفترچه
+  همه‌ی فایل‌ها در یک scope سراسری مشترک اجرا می‌شوند (مانند نسخه‌ی یک‌پارچه‌ی اصلی).
+-->
+<script src="config.js?v=10"></script>
+<script src="questions.js?v=7"></script>
+<script src="scoring.js?v=17"></script>
+<script src="edu.js?v=1"></script>
+<script src="mcal-data.js?v=2"></script>
+<script src="mcal.js?v=3"></script>
+<script src="fslib.js?v=1"></script>
+<script src="app.js?v=46"></script>
+<!-- ۹) ماژول دفترچهٔ علائم (مستقل — v19: مسدودسازی کارت طب فشاری وقتی موعد پریود گذشته و شروع جدید ثبت نشده = احتمال بارداری)  ۱۰) آداپتور اتصال به دادهٔ سَمن — باید پس از app.js باشد -->
+<script src="symptom-journal.js?v=23"></script>
+<script src="symjournal-adapter.js?v=2"></script>
+<!-- ۱۱) دفترچه‌های تغذیه و دمنوش‌ها — پس از دفترچهٔ علائم (RECS را می‌خواند) -->
+<script src="sj-books.js?v=6"></script>
+<!-- ۱۲-۱۴) همراه مادر: محتوا، منطق و آداپتور — ماژول مستقل؛ آداپتور پس از app.js -->
+<script src="pp-content.js?v=4"></script>
+<script src="pp-companion.js?v=6"></script>
+<script src="pp-adapter.js?v=1"></script>
+<!-- ۱۵-۱۶) بخش حمایت عاطفی مادر «من هم مهمم» — پس از همراه مادر و آداپتورش؛ داده در همان کلید samn_pp_companion_v1 (زیرکلید support) -->
+<script src="pp-support-content.js?v=5"></script>
+<script src="pp-support.js?v=9"></script>
+</body>
+</html>

@@ -1,0 +1,389 @@
+/* ============================================================
+   edu.css — سیستم طراحی محتوای آموزشی سَمن
+   ارائه محتوا به‌صورت مقاله‌ی تصویریِ تعاملی: هیرو، بلوک‌های
+   کوتاه، گام‌های قابل‌علامت‌زدن، آکاردئون، چک‌لیست، اینفوگرافیک
+   HTML و وضعیت‌های هدفمند (ذخیره/مفید بود/پیشرفت).
+   هماهنگ با هویت گرم و مینیمال سَمن (style.css).
+   ============================================================ */
+
+:root {
+  --edu-ink: #2a2620;
+  --edu-ink2: #5d574c;
+  --edu-muted: #8b8477;
+  --edu-sage: #527d57;
+  --edu-sage-deep: #1e5b50;
+  --edu-sage-soft: #e7efe9;
+  --edu-cream: #faf7f1;
+  --edu-clay: #b06e63;
+  --edu-clay-soft: #f4e7e2;
+  --edu-warn: #b3873c;
+  --edu-warn-soft: #f6eedb;
+  --edu-danger: #b25850;
+  --edu-danger-soft: #f7e7e4;
+  --edu-border: #eae3d5;
+  --edu-r-lg: 20px;
+  --edu-r-md: 14px;
+  --edu-sh: 0 10px 30px -14px rgba(42, 38, 32, 0.18);
+}
+
+/* ---------- چیدمان مقاله ---------- */
+.edu-wrap { max-width: 54rem; margin-inline: auto; }
+.edu-article {
+  background: var(--surface);
+  border: 1px solid var(--edu-border);
+  border-radius: var(--edu-r-lg);
+  box-shadow: var(--edu-sh);
+  overflow: hidden;
+}
+.edu-article + .edu-article { margin-top: 18px; }
+
+/* ---------- هیرو تصویری ---------- */
+.edu-hero { position: relative; }
+.edu-hero img {
+  display: block; width: 100%;
+  aspect-ratio: 2 / 1; object-fit: cover;
+  animation: eduFadeIn 0.7s ease both;
+}
+.edu-hero::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(42, 38, 32, 0) 55%, rgba(42, 38, 32, 0.32));
+  pointer-events: none;
+}
+.edu-hero-cap {
+  position: absolute; bottom: 12px; inset-inline-start: 14px; z-index: 1;
+  background: rgba(250, 247, 241, 0.92); backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  color: var(--edu-ink); font-size: 0.78rem; font-weight: 600;
+  padding: 5px 12px; border-radius: 999px;
+}
+@keyframes eduFadeIn { from { opacity: 0; transform: scale(1.02); } to { opacity: 1; transform: none; } }
+
+/* تصویر درون‌متن */
+.edu-figure { margin: 4px 0 14px; border-radius: var(--edu-r-md); overflow: hidden; border: 1px solid var(--edu-border); background: var(--edu-cream); }
+.edu-figure img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.edu-figure.sq img { aspect-ratio: 1 / 1; }
+.edu-figure figcaption, .edu-figure-cap {
+  font-size: 0.76rem; color: var(--edu-muted); padding: 8px 12px 10px; background: var(--edu-cream);
+}
+@media (min-width: 720px) {
+  .edu-figure { float: inline-start; width: 46%; margin: 2px 0 14px 18px; }
+  .edu-article-body::after { content: ""; display: block; clear: both; }
+}
+
+/* ---------- سرصفحه مقاله ---------- */
+.edu-head { padding: 20px 22px 6px; }
+.edu-kick {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 0.74rem; font-weight: 700; letter-spacing: 0.02em;
+  color: var(--edu-sage-deep); background: var(--edu-sage-soft);
+  border-radius: 999px; padding: 4px 12px; margin-bottom: 10px;
+}
+.edu-h1 { font-size: 1.5rem; font-weight: 800; margin: 0 0 8px; line-height: 1.45; }
+.edu-lead { color: var(--edu-ink2); font-size: 0.95rem; line-height: 1.95; margin: 0; }
+
+/* «چه یاد می‌گیری» */
+.edu-learn {
+  display: flex; flex-wrap: wrap; gap: 8px; padding: 14px 22px 4px; margin: 0;
+}
+.edu-learn li {
+  list-style: none; display: inline-flex; align-items: center; gap: 6px;
+  font-size: 0.8rem; color: var(--edu-sage-deep);
+  background: var(--edu-sage-soft); border: 1px solid #d3e2da;
+  padding: 5px 12px; border-radius: 999px;
+}
+.edu-learn li svg { width: 14px; height: 14px; }
+
+/* ---------- بدنه و بلوک‌ها ---------- */
+.edu-body { padding: 14px 22px 22px; }
+.edu-block { margin: 0 0 18px; }
+.edu-kicker {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 0.8rem; font-weight: 800; color: var(--edu-ink);
+  margin-bottom: 8px;
+}
+.edu-kicker svg { width: 17px; height: 17px; color: var(--edu-sage-deep); flex: 0 0 auto; }
+.edu-block p { margin: 0; color: var(--edu-ink2); font-size: 0.9rem; line-height: 2; }
+
+/* نکته‌ی کلیدی برجسته */
+.edu-key {
+  display: flex; gap: 10px; align-items: flex-start;
+  background: var(--edu-warn-soft); border: 1px solid #e6d5ac;
+  border-radius: var(--edu-r-md); padding: 12px 14px; margin: 0 0 18px;
+}
+.edu-key svg { width: 18px; height: 18px; color: var(--edu-warn); flex: 0 0 auto; margin-top: 2px; }
+.edu-key b { font-size: 0.84rem; color: var(--edu-ink); display: block; margin-bottom: 3px; }
+.edu-key p { margin: 0; font-size: 0.84rem; line-height: 1.9; color: var(--edu-ink2); }
+
+/* ---------- گام‌های شماره‌دار قابل‌علامت‌زدن ---------- */
+.edu-steps { margin: 0; padding: 0; counter-reset: edustep; }
+.edu-steps li {
+  list-style: none; counter-increment: edustep;
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 11px 12px; border: 1px solid var(--edu-border);
+  border-radius: var(--edu-r-md); background: var(--surface);
+  margin-bottom: 8px; transition: border-color 0.2s, background 0.2s;
+}
+.edu-steps li::before {
+  content: counter(edustep);
+  flex: 0 0 auto; width: 26px; height: 26px; border-radius: 9px;
+  display: grid; place-items: center;
+  background: var(--edu-sage-soft); color: var(--edu-sage-deep);
+  font-weight: 800; font-size: 0.82rem; margin-top: 1px;
+  transition: background 0.2s, color 0.2s;
+}
+.edu-steps li span { color: var(--edu-ink2); font-size: 0.87rem; line-height: 1.95; }
+.edu-steps li.done { background: var(--edu-sage-soft); border-color: #d3e2da; }
+.edu-steps li.done::before { background: var(--edu-sage-deep); color: #fff; }
+.edu-steps li.done span { color: var(--edu-ink); }
+.edu-steps.checkable li { cursor: pointer; user-select: none; }
+.edu-steps.checkable li:hover { border-color: var(--edu-sage); }
+.edu-steps.checkable li::before { display: none; }
+.edu-steps li.next-up { border-color: var(--edu-sage); box-shadow: 0 0 0 2px rgba(82, 125, 87, 0.14); }
+.edu-steps li.next-up span::after {
+  content: "— گام بعدی تو"; display: inline-flex; margin-inline-start: 8px;
+  font-size: 0.7rem; font-weight: 700; color: var(--edu-sage-deep);
+}
+.edu-steps .step-ck {
+  flex: 0 0 auto; width: 20px; height: 20px; margin-top: 4px;
+  border: 1.6px solid #cfc7b6; border-radius: 7px; display: grid; place-items: center;
+  color: transparent; transition: all 0.2s; background: #fff;
+}
+.edu-steps li.done .step-ck { background: var(--edu-sage-deep); border-color: var(--edu-sage-deep); color: #fff; }
+.edu-steps .step-ck svg { width: 12px; height: 12px; }
+
+/* نوار پیشرفت گام‌ها */
+.edu-prog {
+  display: flex; align-items: center; gap: 10px; margin: 2px 0 14px;
+}
+.edu-prog-bar { flex: 1; height: 8px; background: #efe9dc; border-radius: 999px; overflow: hidden; }
+.edu-prog-bar i { display: block; height: 100%; width: 0; border-radius: 999px; background: linear-gradient(90deg, #527d57, #1e5b50); transition: width 0.5s ease; }
+.edu-prog-lab { font-size: 0.76rem; color: var(--edu-muted); font-weight: 600; white-space: nowrap; }
+
+/* ---------- «چه کارهایی بهتر است نکنی» — بازشدنی ---------- */
+.edu-details {
+  border: 1px solid var(--edu-border); border-radius: var(--edu-r-md);
+  background: var(--surface); margin-bottom: 18px; overflow: hidden;
+}
+.edu-details summary {
+  list-style: none; cursor: pointer; display: flex; align-items: center; gap: 9px;
+  padding: 12px 14px; font-size: 0.86rem; font-weight: 700; color: var(--edu-ink);
+}
+.edu-details summary::-webkit-details-marker { display: none; }
+.edu-details summary .chev { margin-inline-start: auto; transition: transform 0.25s; width: 16px; height: 16px; color: var(--edu-muted); }
+.edu-details[open] summary .chev { transform: rotate(180deg); }
+.edu-details .edu-details-in { padding: 2px 14px 14px; }
+.edu-details summary svg:first-child { width: 17px; height: 17px; color: var(--edu-danger); }
+
+.edu-list { margin: 0; padding: 0; }
+.edu-list li { list-style: none; display: flex; gap: 10px; align-items: flex-start; padding: 7px 0; }
+.edu-list li + li { border-top: 1px dashed var(--edu-border); }
+.edu-list li i.dot { flex: 0 0 auto; width: 8px; height: 8px; border-radius: 99px; margin-top: 9px; }
+.edu-list li i.dot.ok { background: var(--edu-sage); }
+.edu-list li i.dot.warn { background: var(--edu-danger); }
+.edu-list li span { font-size: 0.86rem; line-height: 1.95; color: var(--edu-ink2); }
+
+/* ---------- «کی کمک بگیرم» — جعبه‌ی ایمنی ---------- */
+.edu-seek {
+  background: var(--edu-danger-soft); border: 1px solid #e9c8c2;
+  border-radius: var(--edu-r-md); padding: 14px 16px; margin-bottom: 18px;
+}
+.edu-seek .edu-kicker { color: var(--edu-danger); margin-bottom: 8px; }
+.edu-seek .edu-kicker svg { color: var(--edu-danger); }
+.edu-seek li span { color: #6d4038; }
+
+/* ---------- چک‌لیست قابل‌ثبت ---------- */
+.edu-check { margin: 0; padding: 0; }
+.edu-check li { list-style: none; margin-bottom: 8px; }
+.edu-check li button {
+  width: 100%; display: flex; align-items: center; gap: 10px; text-align: start;
+  border: 1px solid var(--edu-border); background: var(--surface);
+  border-radius: var(--edu-r-md); padding: 11px 13px; cursor: pointer;
+  font: inherit; transition: all 0.2s;
+}
+.edu-check li button:hover { border-color: var(--edu-sage); }
+.edu-check li button .ck {
+  flex: 0 0 auto; width: 21px; height: 21px; border-radius: 7px;
+  border: 1.6px solid #cfc7b6; display: grid; place-items: center; color: transparent; background: #fff;
+  transition: all 0.2s;
+}
+.edu-check li button.on { background: var(--edu-sage-soft); border-color: #d3e2da; }
+.edu-check li button.on .ck { background: var(--edu-sage-deep); border-color: var(--edu-sage-deep); color: #fff; }
+.edu-check li button .ck svg { width: 12px; height: 12px; }
+.edu-check li button span { font-size: 0.87rem; color: var(--edu-ink2); line-height: 1.8; }
+.edu-check li button.on span { color: var(--edu-ink); }
+
+/* ---------- اینفوگرافیک HTML (RTL) ---------- */
+.edu-info { border: 1px solid var(--edu-border); border-radius: var(--edu-r-md); background: var(--edu-cream); padding: 16px; margin-bottom: 18px; }
+.edu-info-t { font-size: 0.86rem; font-weight: 800; color: var(--edu-ink); margin: 0 0 12px; display: flex; gap: 8px; align-items: center; }
+.edu-info-t svg { width: 17px; height: 17px; color: var(--edu-sage-deep); }
+
+/* جدول نشانه‌ها (روز ↔ تعداد) */
+.edu-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 0.82rem; }
+.edu-table th {
+  background: var(--edu-sage-soft); color: var(--edu-sage-deep); font-weight: 700;
+  padding: 8px 10px; text-align: center; border-bottom: 1px solid #d3e2da;
+}
+.edu-table th:first-child { border-start-start-radius: 10px; }
+.edu-table th:last-child { border-start-end-radius: 10px; }
+.edu-table td { padding: 8px 10px; text-align: center; color: var(--edu-ink2); border-bottom: 1px dashed var(--edu-border); }
+.edu-table tr:last-child td { border-bottom: 0; }
+.edu-table td.rowh { font-weight: 700; color: var(--edu-ink); background: rgba(231, 238, 233, 0.45); }
+
+/* مقایسه‌ی دو وضعیت */
+.edu-compare { display: grid; grid-template-columns: 1fr; gap: 10px; }
+@media (min-width: 640px) { .edu-compare { grid-template-columns: 1fr 1fr; } }
+.edu-compare .cmp {
+  border-radius: var(--edu-r-md); padding: 13px 14px; border: 1px solid var(--edu-border); background: var(--surface);
+}
+.edu-compare .cmp h5 { margin: 0 0 8px; font-size: 0.84rem; display: flex; align-items: center; gap: 7px; }
+.edu-compare .cmp h5 svg { width: 16px; height: 16px; flex: 0 0 auto; }
+.edu-compare .cmp.good { background: var(--edu-sage-soft); border-color: #d3e2da; }
+.edu-compare .cmp.good h5 { color: var(--edu-sage-deep); }
+.edu-compare .cmp.bad { background: var(--edu-danger-soft); border-color: #e9c8c2; }
+.edu-compare .cmp.bad h5 { color: var(--edu-danger); }
+.edu-compare .cmp ul { margin: 0; padding: 0; }
+.edu-compare .cmp li { list-style: none; font-size: 0.8rem; color: var(--edu-ink2); line-height: 1.9; padding: 3px 0; display: flex; gap: 7px; }
+.edu-compare .cmp li svg { width: 14px; height: 14px; flex: 0 0 auto; margin-top: 5px; }
+.edu-compare .cmp.good li svg { color: var(--edu-sage); }
+.edu-compare .cmp.bad li svg { color: var(--edu-danger); }
+
+/* خط زمانی */
+.edu-tline { position: relative; padding-inline-start: 22px; }
+.edu-tline::before { content: ""; position: absolute; inset-inline-start: 7px; top: 6px; bottom: 6px; width: 2px; background: #d8e4dd; border-radius: 2px; }
+.edu-tline li { list-style: none; position: relative; padding-bottom: 14px; }
+.edu-tline li::before {
+  content: ""; position: absolute; inset-inline-start: -21px; top: 7px;
+  width: 12px; height: 12px; border-radius: 99px; background: var(--edu-sage);
+  border: 3px solid var(--edu-sage-soft);
+}
+.edu-tline li b { display: block; font-size: 0.85rem; color: var(--edu-ink); margin-bottom: 2px; }
+.edu-tline li span { font-size: 0.82rem; color: var(--edu-ink2); line-height: 1.9; }
+
+/* ---------- خلاصه + اقدام بعدی ---------- */
+.edu-sum {
+  background: linear-gradient(135deg, var(--edu-sage-soft), #f2f0e7);
+  border: 1px solid #d3e2da; border-radius: var(--edu-r-md);
+  padding: 15px 16px; margin-bottom: 18px;
+}
+.edu-sum .edu-kicker { margin-bottom: 8px; }
+.edu-sum ul { margin: 0 0 4px; padding: 0; }
+.edu-sum ul li { list-style: none; display: flex; gap: 8px; font-size: 0.84rem; color: var(--edu-ink2); line-height: 1.95; padding: 3px 0; }
+.edu-sum ul li svg { width: 15px; height: 15px; color: var(--edu-sage); flex: 0 0 auto; margin-top: 6px; }
+.edu-next {
+  display: flex; flex-wrap: wrap; gap: 9px; align-items: center; margin-top: 10px;
+}
+.edu-next .nx {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--edu-sage-deep); color: #fff; border: 0; cursor: pointer;
+  font: inherit; font-size: 0.84rem; font-weight: 700;
+  padding: 9px 15px; border-radius: 12px; transition: transform 0.15s, background 0.2s;
+}
+.edu-next .nx:hover { background: #174740; transform: translateY(-1px); }
+.edu-next .nx.ghost { background: transparent; color: var(--edu-sage-deep); border: 1.4px solid #c3d6cc; }
+.edu-next .nx.ghost:hover { background: #fff; }
+
+/* ---------- وضعیت‌ها: ذخیره / مفید بود ---------- */
+.edu-states {
+  display: flex; flex-wrap: wrap; gap: 9px; align-items: center;
+  padding: 12px 22px 20px;
+}
+.edu-st {
+  display: inline-flex; align-items: center; gap: 7px; cursor: pointer;
+  font: inherit; font-size: 0.8rem; font-weight: 700; color: var(--edu-ink2);
+  background: var(--surface); border: 1.4px solid var(--edu-border);
+  border-radius: 999px; padding: 7px 14px; transition: all 0.2s;
+}
+.edu-st svg { width: 15px; height: 15px; }
+.edu-st:hover { border-color: var(--edu-sage); color: var(--edu-sage-deep); }
+.edu-st.on { background: var(--edu-sage-soft); border-color: var(--edu-sage); color: var(--edu-sage-deep); }
+.edu-st.on svg { fill: currentColor; }
+.edu-st:disabled { opacity: 0.75; cursor: default; transform: none; }
+
+/* ---------- کارت موضوعی (گرید راهنما) ---------- */
+.edu-topics { display: grid; grid-template-columns: 1fr; gap: 14px; }
+@media (min-width: 680px) { .edu-topics { grid-template-columns: 1fr 1fr; } }
+.edu-topic {
+  text-align: start; font: inherit; cursor: pointer;
+  border: 1px solid var(--edu-border); background: var(--surface);
+  border-radius: var(--edu-r-lg); overflow: hidden; padding: 0;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  display: flex; flex-direction: column;
+}
+.edu-topic:hover { transform: translateY(-3px); box-shadow: var(--edu-sh); border-color: #cfd9cf; }
+.edu-topic img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block; }
+.edu-topic-b { padding: 13px 15px 15px; display: flex; flex-direction: column; gap: 5px; flex: 1; }
+.edu-topic-b b { font-size: 0.95rem; color: var(--edu-ink); }
+.edu-topic-b i { font-style: normal; font-size: 0.8rem; color: var(--edu-muted); line-height: 1.85; }
+.edu-topic-f {
+  margin-top: auto; padding-top: 9px; display: flex; align-items: center; gap: 7px;
+  font-size: 0.76rem; font-weight: 700; color: var(--edu-sage-deep);
+}
+.edu-topic-f svg { width: 14px; height: 14px; }
+.edu-topic .tp-badge {
+  position: relative; margin: 10px 12px 0 auto; display: inline-flex; gap: 5px; align-items: center;
+  font-size: 0.7rem; font-weight: 700; color: var(--edu-sage-deep);
+  background: rgba(250, 247, 241, 0.94); border: 1px solid #d3e2da;
+  padding: 3px 9px; border-radius: 999px;
+}
+.edu-topic { position: relative; }
+.edu-topic .tp-badge { position: absolute; top: 10px; inset-inline-end: 10px; }
+
+/* ---------- نوار آشنای بالای صفحه‌ی راهنما ---------- */
+.edu-entry {
+  display: flex; align-items: center; gap: 14px;
+  border: 1px solid #d3e2da; background: linear-gradient(135deg, #e7efe9, #f4f1e4);
+  border-radius: var(--edu-r-lg); padding: 14px 16px; margin-bottom: 16px;
+}
+.edu-entry-ico {
+  flex: 0 0 auto; width: 52px; height: 52px; border-radius: 16px; overflow: hidden;
+  background: var(--edu-sage-soft); display: grid; place-items: center;
+}
+.edu-entry-ico img { width: 100%; height: 100%; object-fit: cover; }
+.edu-entry-b { flex: 1; min-width: 0; }
+.edu-entry-b b { display: block; font-size: 0.95rem; color: var(--edu-ink); }
+.edu-entry-b i { font-style: normal; font-size: 0.8rem; color: var(--edu-ink2); line-height: 1.8; }
+.edu-entry .btn { flex: 0 0 auto; }
+
+/* ---------- فوتر مقاله ---------- */
+.edu-src {
+  border-top: 1px dashed var(--edu-border); margin: 4px 22px 0; padding: 11px 0 4px;
+  display: flex; flex-direction: column; gap: 3px;
+}
+.edu-src span { font-size: 0.74rem; color: var(--edu-muted); }
+
+/* ---------- تیک روزهای برنامه چندروزه (مثل برنامه ۷ روز) ---------- */
+.plan-ck {
+  flex: 0 0 auto; width: 38px; height: 38px; border-radius: 13px;
+  border: 1.5px solid var(--edu-border); background: var(--surface);
+  color: #c9c1b0; cursor: pointer; display: grid; place-items: center;
+  transition: all 0.2s; font: inherit;
+}
+.plan-ck svg { width: 17px; height: 17px; }
+.plan-ck:hover { border-color: var(--edu-sage); color: var(--edu-sage-deep); }
+.plan-ck.on { background: var(--edu-sage-deep); border-color: var(--edu-sage-deep); color: #fff; }
+
+/* ---------- حرکت ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .edu-reveal { animation: eduUp 0.5s ease both; }
+  .edu-reveal:nth-child(2) { animation-delay: 0.06s; }
+  .edu-reveal:nth-child(3) { animation-delay: 0.12s; }
+}
+@keyframes eduUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+/* ---------- موبایل ---------- */
+@media (max-width: 640px) {
+  .edu-head { padding: 16px 16px 4px; }
+  .edu-body { padding: 12px 16px 18px; }
+  .edu-learn { padding: 12px 16px 2px; }
+  .edu-states { padding: 10px 16px 18px; }
+  .edu-src { margin-inline: 16px; }
+  .edu-h1 { font-size: 1.28rem; }
+  .edu-hero img { aspect-ratio: 16 / 10; }
+  .edu-figure { float: none; width: 100%; margin-inline: 0; }
+  .edu-table { font-size: 0.76rem; }
+  .edu-table th, .edu-table td { padding: 6px 6px; }
+  .edu-entry { flex-wrap: wrap; row-gap: 10px; }
+  .edu-entry-ico { width: 46px; height: 46px; }
+  .edu-entry-b { flex: 1 1 0; }
+  .edu-entry .btn { flex: 1 1 100%; justify-content: center; }
+}

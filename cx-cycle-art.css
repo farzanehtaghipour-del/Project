@@ -1,0 +1,2043 @@
+/* ============================================================
+   cx-cycle-art.css — «تقویم چرخه»، «نمودار الگو»، «راهنمای مراحل»،
+   «پنجرهٔ تاریخچهٔ الگو» و «نکته‌های معتبر / پزشک یا ماما» — آرتیفکت
+   ------------------------------------------------------------
+   v2: بخش «بدنت در هر مرحله چه می‌کند» به خانوادهٔ آرتیفکت پیوست (§راهنمای مراحل):
+     کارت سبز cxa-ph-card + تب‌های ظریف با نقطهٔ رنگ فاز + ردیف‌های نعنایی + باند مراقبت
+   v3: پنجرهٔ جدا «تاریخچهٔ الگو» (cxa-hwin: پس‌زمینهٔ شیشه‌ای + ردیف‌های قرصی +
+     دکمهٔ «بستن») و دو عنوان جمع‌شوندهٔ «چند نکتهٔ معتبر» / «پزشک یا ماما»
+     (cxa-know: قرص نعنایی راست + قرص رز چپ + گرید کارت‌های یاسی ۴نکته‌ای)
+   v4: نوار «cxa-cal-under» دقیقاً زیر شبکهٔ روزها (ثبت شروع + حلقهٔ طول چرخه +
+     مدت پریود) — جایگزین ستون کناری؛ حذف .cxa-foot؛ لجند ۷ آیتمی
+   v6: رفع بیرون‌زدگی چیپ «مدت پریود» + روز انتخاب‌شدهٔ زرد
+   v7: (فقط CSS — بدون تغییر در app.js/scoring.js/دفترچه)
+     • لکه‌بینی روی روزهای پنجرهٔ باروری/تخمک‌گذاری دیگر رنگ فاز را نمی‌پوشاند:
+       قاعدهٔ «.cxa-day.is-spot .cxa-n» (سفید + خط‌چین رز) که چون بعد از
+       is-fertile/is-ov و هم‌وزنِ آن‌ها می‌آمد رنگ باروری را حذف می‌کرد — اکنون
+       با دو قاعدهٔ ترکیبی is-fertile.is-spot / is-ov.is-spot (وزن بیشتر و با
+       :not(.is-selected)) ظاهر فاز برمی‌گردد و لکه‌بینی فقط «نقطهٔ رز گوشهٔ سلول»
+       (::before، با هالهٔ سفید) می‌شود؛ بدون تداخل با .cxa-log و is-today و is-selected.
+     • تینت آبی/سبزِ روزهای فولیکولی (.cxa-day.is-lite .cxa-n و :hover آن) حذف شد —
+       رنگ تقویم فقط برای is-fertile و is-ov است؛ کلاس is-lite و برچسب آن در JS سر جایش است.
+   ------------------------------------------------------------
+   ● بعد از cycle.css و cx-calendar-skin.css بارگذاری می‌شود (index.html).
+   ● فقط لایهٔ نمایش است: هیچ منطقی از app.js عوض نمی‌شود (cxPhaseOf/cxModel…).
+   ● همهٔ کلاس‌ها پیشوند cxa- دارند تا با cx- قدیمی تداخل نکنند.
+   ● ریسپانسیو با Container Query روی .cxa-scope (موبایل‌فرست؛ ۳۸۰/۴۷۰/۶۴۰).
+   ● فونت‌ها از style.css می‌آیند (Vazirmatn ۴۰۰–۸۰۰ محلی) — بدون @font-face اضافه.
+   ● تفاوت‌های عمدی با آرتیفکت پیش‌نمایش:
+     - انیمیشن ورود کارت‌ها ندارد (اپ با هر کلیک رندر می‌کند؛ ورود مداوم آزاردهنده است)
+     - حالت‌های is-cont (ادامهٔ تخمینی) و is-armed (تأیید انتقال شروع) اضافه شده
+     - سوatches لجند cont/lite اضافه شده
+   ============================================================ */
+
+/* ---------- توکن‌ها ---------- */
+:root {
+  --cxa-paper: #f7f4ef;
+  --cxa-paper-2: #fcfaf7;
+  --cxa-white: #ffffff;
+  --cxa-ink: #26333c;
+  --cxa-ink-2: #5d6c77;
+  --cxa-ink-3: #8b99a3;
+  --cxa-line: rgba(38, 51, 60, 0.08);
+  --cxa-line-2: rgba(38, 51, 60, 0.14);
+
+  --cxa-rose: #d75b84;
+  --cxa-rose-mid: #e87da2;
+  --cxa-rose-deep: #a9345c;
+  --cxa-rose-soft: #fbe7ee;
+  --cxa-rose-ink: #8b2a50;
+
+  --cxa-mint: #43cfaa;
+  --cxa-teal: #22b3a4;
+  --cxa-aqua: #2fb8d8;
+  --cxa-sky: #3e9bee;
+  --cxa-blue: #5b74e9;
+  --cxa-mint-soft: #e8f8f2;
+  --cxa-teal-ink: #0e6b5e;
+
+  --cxa-r-lg: 28px;
+  --cxa-r-md: 18px;
+  --cxa-r-sm: 13px;
+
+  --cxa-shadow: 0 30px 64px -42px rgba(38, 51, 60, 0.5),
+    0 3px 12px -8px rgba(38, 51, 60, 0.12);
+  --cxa-shadow-soft: 0 12px 28px -22px rgba(38, 51, 60, 0.4);
+  --cxa-ease: cubic-bezier(0.22, 0.75, 0.25, 1);
+}
+
+/* ظرف Container Query — دو کارت تقویم و نمودار داخل آن قرار می‌گیرند */
+.cxa-scope {
+  container-type: inline-size;
+  container-name: cxa;
+}
+
+/* ============================================================
+   کارت‌ها
+   ============================================================ */
+.cxa-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--cxa-r-lg);
+  border: 1px solid rgba(38, 51, 60, 0.07);
+  padding: 24px 24px 20px;
+  box-shadow: var(--cxa-shadow);
+}
+.cxa-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(47, 184, 216, 0.45),
+    rgba(67, 207, 170, 0.35),
+    transparent
+  );
+}
+.cxa-cal-card {
+  background:
+    radial-gradient(130% 90% at 100% 0%, rgba(251, 231, 238, 0.62), transparent 58%),
+    linear-gradient(180deg, #ffffff 0%, #fefcfd 100%);
+}
+.cxa-chart-card {
+  background:
+    radial-gradient(120% 90% at 0% 0%, rgba(67, 207, 170, 0.09), transparent 55%),
+    radial-gradient(110% 90% at 100% 100%, rgba(91, 116, 233, 0.07), transparent 58%),
+    linear-gradient(180deg, #ffffff 0%, #fcfdfd 100%);
+}
+
+/* ---------- سربرگ مشترک ---------- */
+.cxa-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--cxa-ink-3);
+}
+.cxa-kicker i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--cxa-mint), var(--cxa-aqua));
+  box-shadow: 0 0 0 3px rgba(67, 207, 170, 0.13);
+}
+.cxa-kicker i.is-blue {
+  background: linear-gradient(135deg, var(--cxa-aqua), var(--cxa-blue));
+  box-shadow: 0 0 0 3px rgba(62, 155, 238, 0.12);
+}
+
+/* ============================================================
+   ۱) تقویم
+   ============================================================ */
+.cxa-cal-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+.cxa-cal-id {
+  min-width: 0;
+}
+.cxa-month {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  margin-top: 3px;
+}
+.cxa-month b {
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--cxa-ink);
+}
+.cxa-month span {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--cxa-ink-3);
+}
+.cxa-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 7px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(67, 207, 170, 0.08);
+  border: 1px solid rgba(67, 207, 170, 0.18);
+  color: var(--cxa-ink-2);
+  font-size: 10.5px;
+  font-weight: 500;
+  line-height: 1.6;
+  white-space: nowrap;
+}
+.cxa-status.is-late {
+  background: rgba(215, 91, 132, 0.07);
+  border-color: rgba(215, 91, 132, 0.22);
+}
+.cxa-status.is-late b {
+  color: var(--cxa-rose-ink);
+}
+.cxa-status b {
+  font-weight: 700;
+  color: var(--cxa-teal-ink);
+}
+.cxa-status .cxa-sep {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(38, 51, 60, 0.25);
+}
+.cxa-pulse {
+  position: relative;
+  width: 6px;
+  height: 6px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--cxa-mint);
+}
+.cxa-pulse::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 1px solid rgba(67, 207, 170, 0.55);
+  animation: cxaPulse 2.6s ease-out infinite;
+}
+.cxa-tools {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex: none;
+  padding-top: 2px;
+}
+.cxa-iconbtn {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  border: 1px solid var(--cxa-line);
+  background: rgba(255, 255, 255, 0.8);
+  color: var(--cxa-ink-2);
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, background 0.2s, transform 0.2s;
+}
+.cxa-iconbtn svg {
+  width: 14px;
+  height: 14px;
+}
+.cxa-iconbtn:hover {
+  color: var(--cxa-rose-deep);
+  border-color: rgba(215, 91, 132, 0.32);
+  background: #fff;
+  transform: translateY(-1px);
+}
+.cxa-today {
+  height: 30px;
+  padding: 0 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(215, 91, 132, 0.22);
+  background: transparent;
+  color: var(--cxa-rose-deep);
+  font-size: 10.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.cxa-today:hover {
+  background: var(--cxa-rose);
+  border-color: var(--cxa-rose);
+  color: #fff;
+}
+
+/* ---------- هفته و روزها ---------- */
+.cxa-cal-body {
+  display: grid;
+  gap: 12px;
+  margin-top: 14px;
+}
+.cxa-cal-main {
+  min-width: 0;
+}
+.cxa-cal-side {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+.cxa-side-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.cxa-side-label {
+  font-size: 9.5px;
+  font-weight: 600;
+  color: var(--cxa-ink-3);
+}
+.cxa-week {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  margin-top: 0;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--cxa-line);
+}
+.cxa-week span {
+  display: grid;
+  place-items: center;
+  height: 24px;
+  font-size: 9.5px;
+  font-weight: 600;
+  color: var(--cxa-ink-3);
+}
+.cxa-week span.is-fri {
+  color: rgba(169, 52, 92, 0.72);
+}
+.cxa-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 5px;
+  margin-top: 5px;
+}
+.cxa-grid.is-in {
+  animation: cxaGridIn 0.35s var(--cxa-ease) both;
+}
+.cxa-day {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 14px;
+  background: none;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  color: var(--cxa-ink);
+  font-family: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+.cxa-day .cxa-n {
+  position: relative;
+  width: calc(100% - 7px);
+  height: calc(100% - 7px);
+  max-width: 42px;
+  max-height: 42px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 13.5px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  color: inherit;
+  transition: background 0.22s var(--cxa-ease), color 0.18s,
+    box-shadow 0.22s var(--cxa-ease), transform 0.18s var(--cxa-ease);
+}
+.cxa-day:hover .cxa-n {
+  background: rgba(38, 51, 60, 0.045);
+  transform: scale(1.05);
+}
+.cxa-day:active .cxa-n {
+  transform: scale(0.97);
+}
+.cxa-day:focus-visible {
+  outline: none;
+}
+.cxa-day:focus-visible .cxa-n {
+  outline: 2px solid var(--cxa-sky);
+  outline-offset: 2px;
+}
+.cxa-day.is-out {
+  cursor: default;
+}
+.cxa-day.is-out .cxa-n {
+  opacity: 0.34;
+}
+.cxa-day.is-out:hover .cxa-n {
+  background: none;
+  transform: none;
+}
+
+/* پریود ثبت‌شده */
+.cxa-day.is-period .cxa-n {
+  background: linear-gradient(155deg, #fadbe6 0%, #f6c8d8 100%);
+  color: var(--cxa-rose-ink);
+  box-shadow: inset 0 0 0 1px rgba(215, 91, 132, 0.1);
+}
+.cxa-day.is-period:hover .cxa-n {
+  background: linear-gradient(155deg, #fadbe6 0%, #f6c8d8 100%);
+}
+.cxa-day.is-start .cxa-n {
+  background: linear-gradient(150deg, #ea7ba2 0%, #cc4374 100%);
+  color: #fff;
+  box-shadow: 0 8px 18px -10px rgba(204, 67, 116, 0.8),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+/* پریود پیش‌بینی‌شده */
+.cxa-day.is-pred .cxa-n {
+  background: #fff8fb;
+  color: #b2577a;
+  border: 1.2px dashed rgba(215, 91, 132, 0.5);
+  box-shadow: none;
+}
+.cxa-day.is-pred:hover .cxa-n {
+  background: #fff4f8;
+}
+.cxa-day.is-pred.is-start .cxa-n {
+  background: rgba(255, 248, 251, 0.9);
+  color: #b2577a;
+  border: 1.2px dashed rgba(215, 91, 132, 0.62);
+  box-shadow: inset 0 0 0 3px rgba(251, 231, 238, 0.55);
+}
+/* ادامهٔ تخمینی پریود */
+.cxa-day.is-cont .cxa-n {
+  background: repeating-linear-gradient(
+    135deg,
+    #fbe0ea 0 5px,
+    #f6cfdd 5px 6px
+  );
+  color: var(--cxa-rose-ink);
+  box-shadow: inset 0 0 0 1px rgba(215, 91, 132, 0.16);
+}
+
+/* پنجرهٔ باروری */
+.cxa-day.is-fertile .cxa-n {
+  background: linear-gradient(155deg, #e9faf4 0%, #d0f4e8 100%);
+  color: var(--cxa-teal-ink);
+  box-shadow: inset 0 0 0 1px rgba(34, 179, 164, 0.14);
+}
+.cxa-day.is-fertile:hover .cxa-n {
+  background: linear-gradient(155deg, #e9faf4 0%, #d0f4e8 100%);
+}
+
+/* تخمک‌گذاری */
+.cxa-day.is-ov .cxa-n {
+  background: linear-gradient(150deg, #3ecfb8 0%, #149d91 100%);
+  color: #fff;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.9),
+    0 0 0 4px rgba(34, 179, 164, 0.16),
+    0 9px 18px -11px rgba(20, 157, 145, 0.9);
+}
+.cxa-day.is-ov:hover .cxa-n {
+  background: linear-gradient(150deg, #3ecfb8 0%, #149d91 100%);
+}
+
+/* فاز فولیکولی (تخمینی) — v7: تینت آبی/سبز حذف شد؛ این روزها ظاهر عادی دارند.
+   کلاس is-lite و برچسب «فاز فولیکولی (تخمینی)» در JS سر جایشان‌اند —
+   رنگ تقویم فقط برای پنجرهٔ باروری (is-fertile) و تخمک‌گذاری (is-ov) است. */
+
+/* لکه‌بینی — v7: روی روزهای پنجرهٔ باروری/تخمک‌گذاری رنگ فاز حفظ می‌شود و
+   لکه‌بینی فقط با نشانهٔ کوچکِ گوشهٔ سلول نشان داده می‌شود.
+   (ریشهٔ باگ: همین دو قاعدهٔ پایین، چون بعد از is-fertile/is-ov می‌آیند و
+   هم‌وزن‌اند، پس‌زمینهٔ سفیدِ لکه‌بینی را روی رنگ باروری می‌گذاشتند.) */
+.cxa-day.is-spot .cxa-n {
+  background: #fff;
+  color: #a25572;
+  border: 1.2px dotted rgba(215, 91, 132, 0.55);
+}
+.cxa-day.is-spot:hover .cxa-n {
+  background: #fff7fa;
+}
+/* روز باروری/تخمک‌گذاریِ دارای لکه‌بینی: ظاهر فاز برمی‌گردد (وزن بیشتر از
+   قاعدهٔ لکه‌بینی)؛ روز انتخاب‌شدهٔ زرد مثل قبل از همه بالاتر است
+   (با :not(.is-selected) از مسیر این قاعده خارج می‌شود). */
+.cxa-day.is-fertile.is-spot:not(.is-selected) .cxa-n {
+  background: linear-gradient(155deg, #e9faf4 0%, #d0f4e8 100%);
+  color: var(--cxa-teal-ink);
+  border: 0;
+  box-shadow: inset 0 0 0 1px rgba(34, 179, 164, 0.14);
+}
+.cxa-day.is-fertile.is-spot:not(.is-selected):hover .cxa-n {
+  background: linear-gradient(155deg, #e9faf4 0%, #d0f4e8 100%);
+}
+.cxa-day.is-ov.is-spot:not(.is-selected) .cxa-n {
+  background: linear-gradient(150deg, #3ecfb8 0%, #149d91 100%);
+  color: #fff;
+  border: 0;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.9),
+    0 0 0 4px rgba(34, 179, 164, 0.16),
+    0 9px 18px -11px rgba(20, 157, 145, 0.9);
+}
+.cxa-day.is-ov.is-spot:not(.is-selected):hover .cxa-n {
+  background: linear-gradient(150deg, #3ecfb8 0%, #149d91 100%);
+}
+/* نشانهٔ کوچک لکه‌بینی در گوشهٔ سلول — فقط وقتی رنگ فاز حفظ شده است.
+   جای آن با نقطهٔ ثبت دفترچه (.cxa-log — وسط پایین)، حلقهٔ امروز
+   (is-today::after — لبهٔ دایره، ~۹px دورتر از گوشه) و روز انتخاب‌شده
+   (is-selected — پس‌زمینهٔ زرد) تداخل ندارد؛ روی همه رنگ‌ها با هالهٔ سفید خوانا است. */
+.cxa-day.is-spot.is-fertile::before,
+.cxa-day.is-spot.is-ov::before {
+  content: "";
+  position: absolute;
+  top: 1.5px;
+  inset-inline-start: 1.5px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--cxa-rose);
+  box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.92);
+  pointer-events: none;
+}
+
+/* امروز */
+.cxa-day.is-today::after {
+  content: "";
+  position: absolute;
+  place-self: center;
+  width: calc(100% - 4px);
+  height: calc(100% - 4px);
+  max-width: 45px;
+  max-height: 45px;
+  border-radius: 50%;
+  border: 1.4px solid rgba(38, 51, 60, 0.5);
+  pointer-events: none;
+}
+.cxa-day.is-today.is-selected::after {
+  border-color: rgba(180, 125, 15, 0.55);
+}
+
+/* انتخاب — درخواست کارفرما: رنگ زرد گرم به‌جای مشکی (خوانا و هم‌آهنگ با پالت) */
+.cxa-day.is-selected .cxa-n {
+  background: linear-gradient(150deg, #ffd76a 0%, #f0b429 100%);
+  color: #5c4300;
+  box-shadow: 0 12px 24px -14px rgba(240, 180, 41, 0.95),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5), inset 0 0 0 1px rgba(180, 125, 15, 0.28);
+  transform: scale(1.03);
+}
+.cxa-day.is-selected:hover .cxa-n {
+  background: linear-gradient(150deg, #ffdd7e 0%, #f3bc35 100%);
+}
+.cxa-day.is-selected.is-today .cxa-n {
+  color: #5c4300;
+}
+
+/* ثبت روزانه */
+.cxa-log {
+  position: absolute;
+  bottom: 3px;
+  left: 50%;
+  width: 3.5px;
+  height: 3.5px;
+  margin-left: -1.75px;
+  border-radius: 50%;
+  background: var(--cxa-blue);
+  box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.85);
+}
+.cxa-day.is-selected .cxa-log {
+  background: #5c4300; /* روی زرد، نقطهٔ تیره خوانا می‌ماند */
+  box-shadow: none;
+}
+.cxa-day.is-start .cxa-log {
+  background: #fff;
+  box-shadow: none;
+}
+
+/* ---------- نوار جزئیات روز ---------- */
+.cxa-detail {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 0;
+  padding: 10px 13px;
+  border-radius: 16px;
+  border: 1px solid var(--cxa-line);
+  background: linear-gradient(180deg, rgba(247, 244, 239, 0.66), rgba(252, 250, 247, 0.8));
+}
+.cxa-detail-main {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  flex-wrap: wrap;
+}
+.cxa-dd b {
+  display: block;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--cxa-ink);
+}
+.cxa-dd span {
+  display: block;
+  margin-top: 2px;
+  font-size: 9.5px;
+  color: var(--cxa-ink-3);
+}
+.cxa-state {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid var(--cxa-line);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--cxa-ink-2);
+  white-space: nowrap;
+}
+.cxa-state i {
+  width: 5.5px;
+  height: 5.5px;
+  border-radius: 50%;
+  background: var(--cxa-ink-3);
+}
+.cxa-state.is-period i {
+  background: var(--cxa-rose);
+}
+.cxa-state.is-start i {
+  background: var(--cxa-rose-deep);
+}
+.cxa-state.is-pred i {
+  background: #fff;
+  border: 1.2px dashed var(--cxa-rose);
+}
+.cxa-state.is-cont i {
+  background: repeating-linear-gradient(135deg, #fbe0ea 0 2px, #f6cfdd 2px 3px);
+  box-shadow: inset 0 0 0 1px rgba(215, 91, 132, 0.25);
+}
+.cxa-state.is-fertile i {
+  background: var(--cxa-mint);
+}
+.cxa-state.is-ov i {
+  background: var(--cxa-teal);
+  box-shadow: 0 0 0 2px rgba(34, 179, 164, 0.18);
+}
+.cxa-state.is-lite i {
+  background: rgba(67, 207, 170, 0.45);
+}
+.cxa-state.is-spot i {
+  background: #fff;
+  border: 1.2px dotted var(--cxa-rose);
+}
+.cxa-state.is-luteal i {
+  background: #b7a6c9;
+}
+.cxa-state.is-none i {
+  background: rgba(38, 51, 60, 0.2);
+}
+
+/* ---------- راهنما ---------- */
+.cxa-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px 12px;
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+.cxa-lg {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--cxa-ink-2);
+  white-space: nowrap;
+}
+.cxa-sw {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex: none;
+}
+.cxa-sw-per {
+  background: linear-gradient(155deg, #fadbe6, #f6c8d8);
+  box-shadow: inset 0 0 0 1px rgba(215, 91, 132, 0.1);
+}
+.cxa-sw-start {
+  background: linear-gradient(150deg, #ea7ba2, #cc4374);
+}
+.cxa-sw-pred {
+  background: #fff8fb;
+  border: 1.1px dashed rgba(215, 91, 132, 0.58);
+}
+.cxa-sw-cont {
+  background: repeating-linear-gradient(135deg, #fbe0ea 0 2px, #f6cfdd 2px 3px);
+  box-shadow: inset 0 0 0 1px rgba(215, 91, 132, 0.25);
+}
+.cxa-sw-fertile {
+  background: linear-gradient(155deg, #e9faf4, #d0f4e8);
+  box-shadow: inset 0 0 0 1px rgba(34, 179, 164, 0.14);
+}
+.cxa-sw-lite {
+  background: rgba(67, 207, 170, 0.16);
+}
+.cxa-sw-ov {
+  background: linear-gradient(150deg, #3ecfb8, #149d91);
+  border-radius: 50%;
+  box-shadow: 0 0 0 1.5px #fff, 0 0 0 3px rgba(34, 179, 164, 0.2);
+}
+.cxa-sw-spot {
+  background: #fff;
+  border: 1.1px dotted rgba(215, 91, 132, 0.6);
+}
+.cxa-sw-log {
+  background: transparent;
+  position: relative;
+}
+.cxa-sw-log::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: var(--cxa-blue);
+}
+
+/* ---------- نوار زیر تقویم — ثبت شروع، طول چرخه، مدت پریود ---------- */
+.cxa-cal-under {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 8px;
+  margin-top: 13px;
+  padding-top: 13px;
+  border-top: 1px dashed var(--cxa-line-2);
+}
+.cxa-cal-under .cxa-btn {
+  flex: 1 1 100%;
+}
+.cxa-btn {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 39px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 13px;
+  background: linear-gradient(135deg, #e2769d 0%, #c54270 100%);
+  color: #fff;
+  font-size: 11.5px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  box-shadow: 0 12px 24px -16px rgba(197, 66, 112, 0.95),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: transform 0.2s var(--cxa-ease), box-shadow 0.2s, filter 0.2s;
+}
+.cxa-btn svg {
+  width: 13px;
+  height: 13px;
+  flex: none;
+}
+.cxa-btn span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cxa-btn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.04);
+  box-shadow: 0 16px 28px -16px rgba(197, 66, 112, 0.95),
+    inset 0 1px 0 rgba(255, 255, 255, 0.24);
+}
+.cxa-btn:active {
+  transform: translateY(0);
+}
+.cxa-btn.is-done {
+  background: linear-gradient(135deg, #e8f8f2, #d9f3ea);
+  color: var(--cxa-teal-ink);
+  box-shadow: inset 0 0 0 1px rgba(34, 179, 164, 0.22);
+}
+.cxa-btn.is-done:hover {
+  filter: none;
+  transform: none;
+}
+.cxa-btn.is-armed {
+  background: linear-gradient(135deg, #e8ab2f 0%, #c08414 100%);
+  color: #fff;
+  box-shadow: 0 12px 24px -16px rgba(192, 132, 20, 0.95),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+.cxa-btn.is-armed:hover {
+  filter: none;
+  transform: none;
+}
+.cxa-btn:disabled,
+.cxa-btn:disabled:hover {
+  background: var(--cxa-paper-2);
+  color: var(--cxa-ink-3);
+  box-shadow: inset 0 0 0 1px var(--cxa-line-2);
+  transform: none;
+  filter: none;
+  cursor: not-allowed;
+}
+.cxa-cycle {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 11px;
+  border-radius: 13px;
+  border: 1px solid var(--cxa-line);
+  background: rgba(255, 255, 255, 0.72);
+}
+.cxa-ring {
+  position: relative;
+  width: 21px;
+  height: 21px;
+  border-radius: 50%;
+  background: conic-gradient(
+    var(--cxa-teal) calc(var(--p, 0) * 1%),
+    rgba(38, 51, 60, 0.08) 0
+  );
+  flex: none;
+}
+.cxa-ring::before {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  background: #fff;
+}
+.cxa-cycle small {
+  display: block;
+  font-size: 8.5px;
+  color: var(--cxa-ink-3);
+  line-height: 1.5;
+}
+.cxa-cycle b {
+  display: block;
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--cxa-ink);
+  line-height: 1.5;
+  white-space: nowrap;
+}
+/* کنترل «مدت پریود» (cx-clchip از cycle.css) — قرص فشردهٔ ۳۹ پیکسلی هم‌راستا با نوار
+   رفع سرریز (درخواست کارفرما): پایهٔ cycle.css ستونی است و در قرصِ ۳۹ پیکسلی دکمه‌ها
+   از کادر بیرون می‌زدند — چیدمان افقی + دکمه‌های فشرده + min-width تا محتوا همیشه
+   داخل کادر بماند؛ در صفحهٔ باریک، چیپ به خط بعد می‌پیچد. */
+.cxa-scope .cx-clchip {
+  flex: 1 1 auto;
+  min-width: 188px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  height: 39px;
+  border: 1px solid var(--cxa-line);
+  background: rgba(255, 255, 255, 0.72);
+  border-radius: 13px;
+  padding: 0 11px;
+  overflow: hidden;
+}
+.cxa-scope .cx-clchip small {
+  flex: none;
+  font-size: 9px;
+  font-weight: 800;
+  color: var(--cxa-ink-3);
+  white-space: nowrap;
+}
+.cxa-scope .cx-clchip .cx-clrow {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: none;
+}
+/* دکمه‌های − و + در قرص ۳۹ پیکسلی — نسخهٔ فشرده تا داخل کادر بمانند */
+.cxa-scope .cx-clchip .cx-clrow button {
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+  border: 1.5px solid var(--cxa-line);
+  background: #fff;
+  color: var(--cxa-rose-ink, #b2577a);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0 1px;
+  cursor: pointer;
+  transition: 0.15s;
+}
+.cxa-scope .cx-clchip .cx-clrow button:hover {
+  background: #fbe0ea;
+  border-color: rgba(215, 91, 132, 0.45);
+  color: #b2577a;
+}
+.cxa-scope .cx-clchip .cx-clrow button:focus-visible {
+  outline: 2px solid #d75b84;
+  outline-offset: 2px;
+}
+.cxa-scope .cx-clchip .cx-clrow button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  background: #fff;
+  color: var(--cxa-ink-3);
+  border-color: var(--cxa-line);
+}
+.cxa-scope .cx-clchip .cx-clrow button:disabled:hover {
+  background: #fff;
+  border-color: var(--cxa-line);
+  color: var(--cxa-ink-3);
+}
+.cxa-scope .cx-clchip b {
+  font-family: "Vazirmatn", sans-serif;
+  font-weight: 800;
+  font-size: 11.5px;
+  color: var(--cxa-ink);
+  white-space: nowrap;
+}
+.cxa-scope .cx-clchip span {
+  display: none;
+}
+.cxa-startbar-hint {
+  margin: 8px 0 0;
+  font-size: 9.5px;
+  line-height: 1.8;
+  color: var(--cxa-ink-3);
+}
+
+/* ============================================================
+   ۲) نمودار
+   ============================================================ */
+.cxa-chart-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.cxa-chart-title {
+  min-width: 0;
+}
+.cxa-chart-title h2 {
+  margin: 5px 0 0;
+  font-size: 19px;
+  font-weight: 800;
+  line-height: 1.45;
+  letter-spacing: -0.01em;
+  color: var(--cxa-ink);
+}
+.cxa-chart-title p {
+  margin: 5px 0 0;
+  font-size: 10px;
+  line-height: 1.9;
+  color: var(--cxa-ink-3);
+}
+.cxa-avg {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 10px;
+  border-radius: 13px;
+  background: linear-gradient(150deg, rgba(67, 207, 170, 0.1), rgba(62, 155, 238, 0.1));
+  border: 1px solid rgba(34, 179, 164, 0.16);
+}
+.cxa-avg-ic {
+  width: 17px;
+  height: 17px;
+  color: var(--cxa-teal);
+  flex: none;
+}
+.cxa-avg-ic svg {
+  width: 100%;
+  height: 100%;
+}
+.cxa-avg small {
+  display: block;
+  font-size: 8px;
+  font-weight: 600;
+  color: var(--cxa-ink-3);
+  line-height: 1.5;
+}
+.cxa-avg b {
+  display: block;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--cxa-teal-ink);
+  line-height: 1.5;
+  white-space: nowrap;
+}
+.cxa-chart-wrap {
+  position: relative;
+  margin-top: 8px;
+}
+.cxa-chart {
+  width: 100%;
+}
+.cxa-chart svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.cxa-chart text {
+  font-family: "Vazirmatn", "Segoe UI", Tahoma, sans-serif;
+}
+.cxa-gridline {
+  stroke: rgba(38, 51, 60, 0.075);
+  stroke-width: 1;
+  stroke-dasharray: 2 6;
+  stroke-linecap: round;
+}
+.cxa-axis {
+  fill: #8b99a3;
+  font-size: 9.5px;
+  font-weight: 500;
+}
+.cxa-axis.is-strong {
+  fill: #7b8a94;
+  font-weight: 600;
+}
+.cxa-band {
+  fill: url(#cxaBand);
+}
+.cxa-band-edge {
+  stroke: rgba(34, 179, 164, 0.22);
+  stroke-width: 1;
+  stroke-dasharray: 3 5;
+}
+.cxa-avgline {
+  stroke: rgba(38, 51, 60, 0.32);
+  stroke-width: 1.1;
+  stroke-dasharray: 4 5;
+  stroke-linecap: round;
+}
+.cxa-area {
+  opacity: 0;
+  animation: cxaFadeIn 1s var(--cxa-ease) 0.35s forwards;
+}
+.cxa-line {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: cxaDraw 1.35s var(--cxa-ease) 0.15s forwards;
+}
+.cxa-halo {
+  fill: none;
+  stroke-linecap: round;
+  opacity: 0.12;
+  filter: blur(0.4px);
+}
+.cxa-pt {
+  cursor: pointer;
+  outline: none;
+  opacity: 0;
+  animation: cxaPtIn 0.55s var(--cxa-ease) forwards;
+  animation-delay: calc(0.82s + var(--i, 0) * 0.08s);
+}
+.cxa-chart svg.is-static .cxa-pt {
+  opacity: 1;
+  animation: none;
+}
+.cxa-chart svg.is-static .cxa-line {
+  animation: none;
+  stroke-dashoffset: 0;
+}
+.cxa-chart svg.is-static .cxa-area {
+  animation: none;
+  opacity: 1;
+}
+.cxa-chart svg.is-static .cxa-pulse-ring {
+  animation: none;
+  opacity: 0;
+}
+.cxa-dot {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.22s var(--cxa-ease), filter 0.22s;
+}
+.cxa-pt:hover .cxa-dot,
+.cxa-pt:focus-visible .cxa-dot,
+.cxa-pt.is-active .cxa-dot {
+  transform: scale(1.35);
+}
+.cxa-pt:focus-visible .cxa-dot {
+  stroke: var(--cxa-sky);
+  stroke-width: 3;
+}
+.cxa-pt-label {
+  fill: var(--cxa-ink);
+  font-size: 10px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.cxa-pt-label.is-last {
+  fill: #1f6f92;
+  font-weight: 800;
+}
+.cxa-pt-label.is-out {
+  fill: #9b8894;
+  font-weight: 600;
+}
+.cxa-xlabel {
+  fill: #7f8e98;
+  font-size: 9px;
+  font-weight: 500;
+}
+.cxa-xlabel.is-last {
+  fill: var(--cxa-ink-2);
+  font-weight: 700;
+}
+.cxa-guide {
+  opacity: 0;
+  stroke: rgba(38, 51, 60, 0.22);
+  stroke-width: 1;
+  stroke-dasharray: 3 4;
+}
+.cxa-guide.is-on {
+  opacity: 1;
+}
+.cxa-pulse-ring {
+  fill: none;
+  stroke: var(--cxa-teal);
+  stroke-width: 1.2;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: cxaRing 2.8s ease-out 1.6s infinite;
+}
+
+/* تولتیپ */
+.cxa-tip {
+  position: absolute;
+  z-index: 6;
+  min-width: 120px;
+  max-width: 210px;
+  padding: 8px 11px 9px;
+  border-radius: 12px;
+  background: rgba(31, 42, 50, 0.96);
+  color: #fff;
+  box-shadow: 0 18px 34px -18px rgba(31, 42, 50, 0.85);
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, calc(-100% - 10px)) scale(0.96);
+  transition: opacity 0.16s, transform 0.16s var(--cxa-ease);
+  backdrop-filter: blur(6px);
+}
+.cxa-tip.is-on {
+  opacity: 1;
+  transform: translate(-50%, calc(-100% - 10px)) scale(1);
+}
+.cxa-tip::after {
+  content: "";
+  position: absolute;
+  bottom: -3.5px;
+  left: 50%;
+  width: 7px;
+  height: 7px;
+  margin-left: -3.5px;
+  background: rgba(31, 42, 50, 0.96);
+  border-radius: 1.5px;
+  transform: rotate(45deg);
+}
+.cxa-tip-dates {
+  display: block;
+  font-size: 8.5px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.62);
+  line-height: 1.7;
+}
+.cxa-tip-main {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px;
+}
+.cxa-tip-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex: none;
+}
+.cxa-tip-main b {
+  font-size: 11px;
+  font-weight: 800;
+  color: #fff;
+}
+.cxa-tip-sub {
+  display: block;
+  margin-top: 3px;
+  font-size: 8.5px;
+  font-weight: 500;
+  color: rgba(151, 235, 216, 0.9);
+  line-height: 1.7;
+}
+.cxa-tip-sub.is-warn {
+  color: rgba(240, 176, 120, 0.95);
+}
+
+/* ---------- کلید نمودار ---------- */
+.cxa-chart-key {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px 14px;
+  margin-top: 5px;
+  font-size: 9px;
+  font-weight: 500;
+  color: var(--cxa-ink-3);
+}
+.cxa-chart-key span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.cxa-key {
+  flex: none;
+  width: 14px;
+  height: 0;
+  border-top: 1.2px dashed rgba(38, 51, 60, 0.34);
+}
+.cxa-key-band {
+  height: 7px;
+  border: 0;
+  border-radius: 3px;
+  background: rgba(67, 207, 170, 0.12);
+  box-shadow: inset 0 0 0 1px rgba(34, 179, 164, 0.12);
+}
+
+/* ---------- آمار، مقیاس، پانویس ---------- */
+.cxa-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+  margin-top: 13px;
+}
+.cxa-stat {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 13px;
+  border: 1px solid var(--cxa-line);
+  background: rgba(252, 250, 247, 0.62);
+  min-width: 0;
+}
+.cxa-stat-ic {
+  width: 25px;
+  height: 25px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+.cxa-stat-ic svg {
+  width: 12px;
+  height: 12px;
+}
+.cxa-stat-ic.is-mint {
+  background: rgba(67, 207, 170, 0.13);
+  color: #168b77;
+}
+.cxa-stat-ic.is-aqua {
+  background: rgba(47, 184, 216, 0.13);
+  color: #1c86a4;
+}
+.cxa-stat-ic.is-sky {
+  background: rgba(62, 155, 238, 0.13);
+  color: #2b76be;
+}
+.cxa-stat-ic.is-blue {
+  background: rgba(91, 116, 233, 0.12);
+  color: #4a5fc4;
+}
+.cxa-stat small {
+  display: block;
+  font-size: 9px;
+  font-weight: 500;
+  color: var(--cxa-ink-3);
+  line-height: 1.5;
+  white-space: nowrap;
+}
+.cxa-stat b {
+  display: block;
+  margin-top: 1px;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--cxa-ink);
+  line-height: 1.5;
+  font-variant-numeric: tabular-nums;
+}
+.cxa-stat b em {
+  font-style: normal;
+  font-size: 8px;
+  font-weight: 500;
+  color: var(--cxa-ink-3);
+  margin-inline-start: 2px;
+}
+.cxa-scale {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 11px;
+  font-size: 8.5px;
+  font-weight: 500;
+  color: var(--cxa-ink-3);
+}
+.cxa-scale i {
+  flex: 1;
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #5b74e9 0%, #2fb8d8 52%, #43cfaa 100%);
+  opacity: 0.85;
+}
+.cxa-hint {
+  margin: 7px 0 0;
+  font-size: 9px;
+  line-height: 1.9;
+  color: var(--cxa-ink-3);
+}
+.cxa-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  margin: 11px 0 0;
+  padding-top: 10px;
+  border-top: 1px dashed var(--cxa-line-2);
+  font-size: 9px;
+  line-height: 1.9;
+  color: var(--cxa-ink-3);
+}
+.cxa-note svg {
+  width: 11px;
+  height: 11px;
+  flex: none;
+  margin-top: 3px;
+  color: rgba(38, 51, 60, 0.4);
+}
+.cxa-note b {
+  color: var(--cxa-ink-2);
+  font-weight: 700;
+}
+/* ردیف‌های قدیمی‌تر که حفظ شده‌اند (تاریخچهٔ الگو/توضیح منبع) هم‌خانواده شوند */
+.cxa-scope .cx-hint {
+  font-size: 9.5px;
+  line-height: 1.9;
+  color: var(--cxa-ink-3);
+}
+.cxa-scope .cx-histbtn {
+  border-color: var(--cxa-line);
+  background: rgba(252, 250, 247, 0.62);
+  color: var(--cxa-rose-deep);
+  border-radius: 13px;
+  min-height: 40px;
+  font-size: 11.5px;
+}
+.cxa-scope .cx-histall {
+  border: 1px solid var(--cxa-line);
+  border-radius: 13px;
+  padding: 8px;
+  background: rgba(252, 250, 247, 0.62);
+}
+.cxa-scope .cx-hrow {
+  background: #fff;
+  border-radius: 10px;
+  font-size: 10.5px;
+  padding: 7px 11px;
+}
+.cxa-scope .cx-sympat > b {
+  font-size: 10.5px;
+}
+
+/* ---------- حالت خالی ---------- */
+.cxa-empty {
+  margin: 10px 0 0;
+  padding: 22px 14px;
+  border: 1.2px dashed var(--cxa-line-2);
+  border-radius: 16px;
+  text-align: center;
+  font-size: 11.5px;
+  line-height: 2;
+  color: var(--cxa-ink-2);
+  background: rgba(252, 250, 247, 0.62);
+}
+
+/* ============================================================
+   ریسپانسیو — موبایل‌فرست با Container Query
+   ============================================================ */
+@container cxa (min-width: 640px) {
+  .cxa-cal-body {
+    grid-template-columns: minmax(0, 1fr) 190px;
+    gap: 22px;
+    align-items: start;
+  }
+  .cxa-cal-side {
+    gap: 12px;
+  }
+  .cxa-detail {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 9px;
+    padding: 12px 13px;
+  }
+  .cxa-detail-main {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 9px;
+  }
+  .cxa-side-legend {
+    gap: 8px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--cxa-line-2);
+  }
+  .cxa-legend {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .cxa-lg {
+    font-size: 9.8px;
+  }
+  .cxa-cal-under {
+    flex-wrap: nowrap;
+    gap: 9px;
+  }
+  .cxa-cal-under .cxa-btn {
+    flex: 1 1 auto;
+    width: auto;
+    height: 39px;
+  }
+  .cxa-cycle {
+    height: 39px;
+    justify-content: center;
+  }
+}
+
+@container cxa (min-width: 470px) {
+  .cxa-card {
+    padding: 26px 26px 22px;
+  }
+  .cxa-month b {
+    font-size: 28px;
+  }
+  .cxa-grid {
+    gap: 6px;
+  }
+  .cxa-day .cxa-n {
+    font-size: 13px;
+  }
+  .cxa-stats {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .cxa-chart-title h2 {
+    font-size: 20px;
+  }
+}
+@container cxa (max-width: 380px) {
+  .cxa-card {
+    padding: 19px 16px 17px;
+    border-radius: 24px;
+  }
+  .cxa-month b {
+    font-size: 23px;
+  }
+  .cxa-month span {
+    font-size: 10.5px;
+  }
+  .cxa-tools {
+    gap: 3px;
+  }
+  .cxa-iconbtn {
+    width: 28px;
+    height: 28px;
+  }
+  .cxa-today {
+    padding: 0 8px;
+    font-size: 9.5px;
+  }
+  .cxa-grid {
+    gap: 3px;
+  }
+  .cxa-day .cxa-n {
+    font-size: 12px;
+  }
+  .cxa-day.is-today::after {
+    max-width: 36px;
+    max-height: 36px;
+  }
+  .cxa-chart-title h2 {
+    font-size: 16px;
+  }
+  .cxa-chart-title p {
+    font-size: 9px;
+  }
+  .cxa-avg {
+    padding: 6px 8px;
+  }
+  .cxa-avg b {
+    font-size: 10.5px;
+  }
+  .cxa-detail {
+    padding: 9px 10px;
+  }
+  .cxa-dd b {
+    font-size: 11px;
+  }
+  .cxa-state {
+    font-size: 9px;
+    padding: 3px 7px;
+  }
+  .cxa-btn {
+    font-size: 10.5px;
+    padding: 0 10px;
+  }
+  .cxa-cycle {
+    padding: 0 8px;
+    gap: 6px;
+  }
+  .cxa-cycle b {
+    font-size: 10px;
+  }
+}
+
+/* ---------- حرکت و دسترس‌پذیری ---------- */
+@keyframes cxaGridIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes cxaFadeIn {
+  to {
+    opacity: 1;
+  }
+}
+@keyframes cxaDraw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes cxaPtIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes cxaPulse {
+  0% {
+    transform: scale(0.75);
+    opacity: 0.65;
+  }
+  70%,
+  100% {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+}
+@keyframes cxaRing {
+  0% {
+    opacity: 0.5;
+    transform: scale(0.8);
+  }
+  70%,
+  100% {
+    opacity: 0;
+    transform: scale(1.9);
+  }
+}
+/* ============================================================
+   راهنمای مراحل چرخه («بدنت در هر مرحله چه می‌کند») — تم سبز آرتیفکت
+   ------------------------------------------------------------
+   هم‌خانوادهٔ کارت تقویم و نمودار: کاغذ سفید با هالهٔ نعنایی، kicker نقطه‌دار
+   (سبز→فیروزه‌ای)، تیتر و زیرنویس همان مقیاس نمودار. تب فازها با نقطهٔ رنگ
+   خودش (رز/سبز/فیروزه‌ای/آبی — هم‌رنگ خانه‌های تقویم و طیف نمودار) و
+   ردیف‌های محتوایی نعناییِ ملایم؛ باند «مراقبت» خط‌چین سبز.
+   ============================================================ */
+.cxa-ph-card {
+  background:
+    radial-gradient(120% 90% at 0% 0%, rgba(67, 207, 170, 0.1), transparent 56%),
+    radial-gradient(115% 100% at 100% 100%, rgba(34, 179, 164, 0.07), transparent 60%),
+    linear-gradient(180deg, #ffffff 0%, #fbfdfc 100%);
+}
+
+/* تب‌های فاز — نقطهٔ رنگ فاز + حالت انتخاب با تینت همان فاز */
+.cxa-ph-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+  margin-top: 15px;
+}
+.cxa-ph-tab {
+  --ph: var(--cxa-mint);
+  --ph-soft: rgba(67, 207, 170, 0.14);
+  --ph-line: rgba(67, 207, 170, 0.4);
+  position: relative;
+  border: 1px solid var(--cxa-line);
+  background: var(--cxa-white);
+  border-radius: 14px;
+  padding: 9px 4px 7px;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--cxa-ink-2);
+  line-height: 1.6;
+  text-align: center;
+  cursor: pointer;
+  min-height: 46px;
+  transition:
+    border-color 0.18s var(--cxa-ease),
+    background 0.18s var(--cxa-ease),
+    color 0.18s var(--cxa-ease),
+    box-shadow 0.18s var(--cxa-ease);
+}
+.cxa-ph-tab[data-p="mens"] {
+  --ph: var(--cxa-rose);
+  --ph-soft: rgba(215, 91, 132, 0.13);
+  --ph-line: rgba(215, 91, 132, 0.4);
+}
+.cxa-ph-tab[data-p="foll"] {
+  --ph: var(--cxa-mint);
+  --ph-soft: rgba(67, 207, 170, 0.14);
+  --ph-line: rgba(67, 207, 170, 0.45);
+}
+.cxa-ph-tab[data-p="ovul"] {
+  --ph: var(--cxa-teal);
+  --ph-soft: rgba(34, 179, 164, 0.14);
+  --ph-line: rgba(34, 179, 164, 0.45);
+}
+.cxa-ph-tab[data-p="lut"] {
+  --ph: var(--cxa-blue);
+  --ph-soft: rgba(91, 116, 233, 0.12);
+  --ph-line: rgba(91, 116, 233, 0.38);
+}
+.cxa-ph-tab::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ph);
+  opacity: 0.5;
+  margin-inline-end: 5px;
+  vertical-align: 1px;
+  transition: opacity 0.18s var(--cxa-ease), box-shadow 0.18s var(--cxa-ease);
+}
+.cxa-ph-tab em {
+  display: block;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 9.5px;
+  min-height: 14px;
+  color: var(--cxa-teal-ink);
+  opacity: 0;
+  transition: opacity 0.18s var(--cxa-ease);
+}
+.cxa-ph-tab:hover {
+  border-color: var(--ph-line);
+  color: var(--cxa-ink);
+}
+.cxa-ph-tab:focus-visible {
+  outline: 2px solid var(--ph-line);
+  outline-offset: 2px;
+}
+.cxa-ph-tab[aria-selected="true"] {
+  background: linear-gradient(165deg, var(--ph-soft), rgba(255, 255, 255, 0.4) 130%);
+  border-color: var(--ph-line);
+  color: var(--cxa-ink);
+  box-shadow: 0 10px 22px -16px rgba(38, 51, 60, 0.5);
+}
+.cxa-ph-tab[aria-selected="true"]::before {
+  opacity: 1;
+  box-shadow: 0 0 0 3px var(--ph-soft);
+}
+.cxa-ph-tab[aria-selected="true"] em {
+  opacity: 1;
+}
+
+/* جملهٔ اصلی فاز — نقل‌قولِ سبزِ ظریف */
+.cxa-ph-lead {
+  margin: 15px 0 0;
+  padding-inline-start: 12px;
+  border-inline-start: 3px solid rgba(67, 207, 170, 0.5);
+  font-size: 13px;
+  line-height: 2;
+  color: var(--cxa-ink);
+}
+
+/* ردیف‌های محتوایی — نعنایی ملایم با آیکون مربع‌گرد */
+.cxa-ph-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 13px;
+}
+.cxa-ph-row,
+.cxa-ph-care {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  min-width: 0;
+  background: rgba(232, 248, 242, 0.55);
+  border: 1px solid rgba(67, 207, 170, 0.15);
+  border-radius: 16px;
+  padding: 12px 13px;
+}
+.cxa-ph-ic {
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(150deg, rgba(67, 207, 170, 0.17), rgba(47, 184, 216, 0.12));
+  border: 1px solid rgba(67, 207, 170, 0.22);
+  color: var(--cxa-teal-ink);
+}
+.cxa-ph-ic svg {
+  width: 15px;
+  height: 15px;
+}
+.cxa-ph-row b,
+.cxa-ph-care b {
+  display: block;
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--cxa-ink);
+}
+.cxa-ph-row p,
+.cxa-ph-care p {
+  margin: 3px 0 0;
+  font-size: 12px;
+  line-height: 1.95;
+  color: var(--cxa-ink-2);
+}
+.cxa-ph-row > div,
+.cxa-ph-care > div {
+  min-width: 0;
+}
+
+/* باند مراقبت — پهن و خط‌چین سبز */
+.cxa-ph-care {
+  margin-top: 8px;
+  background: linear-gradient(160deg, rgba(67, 207, 170, 0.09), rgba(62, 155, 238, 0.05));
+  border: 1px dashed rgba(34, 179, 164, 0.32);
+}
+
+@container cxa (min-width: 470px) {
+  .cxa-ph-tab {
+    font-size: 12.5px;
+  }
+}
+@container cxa (max-width: 470px) {
+  .cxa-ph-grid {
+    grid-template-columns: 1fr;
+  }
+}
+@container cxa (max-width: 380px) {
+  .cxa-ph-tab {
+    font-size: 11px;
+    padding: 7px 2px 6px;
+  }
+  .cxa-ph-tab em {
+    font-size: 9px;
+  }
+  .cxa-ph-tab::before {
+    margin-inline-end: 3px;
+  }
+  .cxa-ph-lead {
+    font-size: 12.5px;
+  }
+  .cxa-ph-row,
+  .cxa-ph-care {
+    padding: 11px 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cxa-scope,
+  .cxa-scope *,
+  .cxa-scope *::before,
+  .cxa-scope *::after {
+    animation-duration: 0.001ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ============================================================
+   پنجرهٔ جدا «تاریخچهٔ الگو» (cxa-hwin) — v3
+   پس‌زمینهٔ شیشه‌ای + کارت سفید + دکمهٔ «بستن» قرصی + ردیف‌های قرصی
+   با نقطهٔ رنگ همان چرخه (طیف سبز→آبی نمودار) + نوار یادداشت نعنایی.
+   کلیک روی پس‌زمینه/دکمهٔ بستن/Esc پنجره را می‌بندد.
+   ============================================================ */
+.cxa-hwin {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+}
+.cxa-hwin-back {
+  position: absolute;
+  inset: 0;
+  background: rgba(38, 51, 60, 0.35);
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+  animation: cxaBackIn 0.25s var(--cxa-ease) both;
+}
+.cxa-hwin-card {
+  position: relative;
+  width: min(560px, 100%);
+  max-height: min(86vh, 760px);
+  overflow-y: auto;
+  border-radius: 26px;
+  border: 1px solid rgba(38, 51, 60, 0.08);
+  background:
+    radial-gradient(120% 80% at 100% 0%, rgba(67, 207, 170, 0.1), transparent 55%),
+    linear-gradient(180deg, #ffffff, #fbfdfd);
+  box-shadow: var(--cxa-shadow);
+  padding: 18px 20px 16px;
+  animation: cxaHwinIn 0.3s var(--cxa-ease) both;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(34, 179, 164, 0.35) transparent;
+}
+.cxa-hwin-card::-webkit-scrollbar { width: 7px; }
+.cxa-hwin-card::-webkit-scrollbar-thumb { background: rgba(34, 179, 164, 0.3); border-radius: 99px; }
+@keyframes cxaBackIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes cxaHwinIn {
+  from { opacity: 0; transform: translateY(16px) scale(0.97); }
+  to { opacity: 1; transform: none; }
+}
+.cxa-hwin-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.cxa-hwin-card .cxa-chart-title h2 { font-size: 21px; }
+.cxa-hwin-close {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 40px;
+  padding: 9px 15px;
+  border-radius: 999px;
+  background: #fff;
+  border: 1.5px solid rgba(34, 179, 164, 0.45);
+  color: var(--cxa-teal-ink);
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 12px 26px -16px rgba(34, 179, 164, 0.55);
+  transition: transform 0.2s var(--cxa-ease), box-shadow 0.2s var(--cxa-ease), border-color 0.2s;
+}
+.cxa-hwin-close:hover {
+  transform: translateY(-1px);
+  border-color: rgba(34, 179, 164, 0.8);
+  box-shadow: 0 16px 30px -16px rgba(34, 179, 164, 0.65);
+}
+.cxa-hwin-close:focus-visible { outline: 2px solid var(--cxa-teal); outline-offset: 2px; }
+.cxa-hwin-close svg { width: 13px; height: 13px; }
+.cxa-hwin-list {
+  display: grid;
+  gap: 8px;
+  max-height: min(46vh, 400px);
+  overflow-y: auto;
+  padding: 3px 2px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(34, 179, 164, 0.35) transparent;
+}
+.cxa-hwin-list::-webkit-scrollbar { width: 7px; }
+.cxa-hwin-list::-webkit-scrollbar-thumb { background: rgba(34, 179, 164, 0.3); border-radius: 99px; }
+.cxa-hwin-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fff;
+  border: 1px solid var(--cxa-line);
+  border-radius: 999px;
+  padding: 11px 16px;
+  font-size: 12.5px;
+  box-shadow: 0 10px 22px -20px rgba(38, 51, 60, 0.55);
+}
+.cxa-hwin-row i {
+  flex: none;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px rgba(38, 51, 60, 0.1);
+}
+.cxa-hwin-row span { flex: 1; min-width: 0; color: var(--cxa-ink); }
+.cxa-hwin-row b { flex: none; font-variant-numeric: tabular-nums; font-weight: 800; color: var(--cxa-ink); }
+.cxa-hwin-row.is-out span, .cxa-hwin-row.is-out b { color: var(--cxa-ink-2); }
+.cxa-hwin-row.is-out b { font-weight: 700; }
+.cxa-hwin-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 13px 2px 0;
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: var(--cxa-mint-soft);
+  color: var(--cxa-teal-ink);
+  font-size: 11px;
+  line-height: 1.95;
+}
+.cxa-hwin-note svg { flex: none; width: 14px; height: 14px; margin-top: 4px; }
+
+/* ============================================================
+   «چند نکتهٔ معتبر» + «چه زمانی با پزشک یا ماما صحبت کنیم؟»
+   دو عنوان جمع‌شونده کنار هم — نکته‌ها راست (نعنایی)، پزشک چپ (رز).
+   بدنهٔ نکته‌ها: گرید کارت‌های یاسی با نوار رنگی سمت راست،
+   برچسب «فاز · دسته» نقطه‌دار، تیتر بولد و متن ظریف.
+   ============================================================ */
+.card.cxa-know {
+  padding: 14px;
+  border-radius: 24px;
+  background: linear-gradient(180deg, #ffffff, #fcfdfc);
+  border: 1px solid rgba(38, 51, 60, 0.07);
+  box-shadow: 0 18px 42px -32px rgba(38, 51, 60, 0.5);
+}
+.cxa-know-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.cxa-know-pill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 8px 13px;
+  border-radius: 16px;
+  border: 1.5px solid transparent;
+  background: none;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  text-align: start;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+.cxa-know-pill:hover { transform: translateY(-1px); }
+.cxa-know-pill:focus-visible { outline: 2px solid var(--cxa-teal); outline-offset: 2px; }
+.cxa-know-pill.is-mint {
+  background: var(--cxa-mint-soft);
+  border-color: rgba(67, 207, 170, 0.55);
+  color: var(--cxa-teal-ink);
+  box-shadow: 0 12px 26px -20px rgba(34, 179, 164, 0.6);
+}
+.cxa-know-pill.is-rose {
+  background: var(--cxa-rose-soft);
+  border-color: rgba(215, 91, 132, 0.45);
+  color: var(--cxa-rose-ink);
+  box-shadow: 0 12px 26px -20px rgba(215, 91, 132, 0.55);
+}
+.cxa-know-ic {
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  background: #fff;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 6px 14px -8px rgba(38, 51, 60, 0.35);
+}
+.cxa-know-ic svg { width: 16px; height: 16px; }
+.cxa-know-pill.is-mint .cxa-know-ic { color: var(--cxa-teal); }
+.cxa-know-pill.is-rose .cxa-know-ic { color: var(--cxa-rose); }
+.cxa-know-t { flex: 1; min-width: 0; line-height: 1.6; }
+.cxa-know-chev {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  opacity: 0.75;
+  transition: transform 0.25s var(--cxa-ease);
+}
+.cxa-know-pill[aria-expanded="true"] .cxa-know-chev { transform: rotate(180deg); }
+.cxa-know-cap {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 14px 4px 10px;
+  color: var(--cxa-ink-2);
+  font-size: 11px;
+  font-weight: 600;
+}
+.cxa-know-cap svg { flex: none; width: 13px; height: 13px; color: var(--cxa-teal); }
+.cxa-know-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.cxa-know-tip {
+  position: relative;
+  background: linear-gradient(175deg, #f5f1fc, #faf8fe);
+  border: 1px solid rgba(140, 110, 220, 0.15);
+  border-radius: 16px;
+  padding: 13px 16px 13px 14px;
+  overflow: hidden;
+  box-shadow: 0 14px 28px -26px rgba(90, 60, 170, 0.55);
+}
+.cxa-know-tip::before {
+  content: "";
+  position: absolute;
+  inset-block: 11px;
+  inset-inline-start: 0;
+  width: 3.5px;
+  border-radius: 99px;
+  background: linear-gradient(180deg, #a78bee, #7e5ce0);
+}
+.cxa-know-tip small {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #8d7cc9;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+.cxa-know-tip small i { flex: none; width: 6px; height: 6px; border-radius: 50%; background: #9b86e3; }
+.cxa-know-tip h3 { margin: 7px 0 6px; font-size: 14px; font-weight: 800; line-height: 1.7; color: var(--cxa-ink); }
+.cxa-know-tip p { margin: 0; font-size: 12px; line-height: 2.05; color: var(--cxa-ink-2); }
+.cxa-know-doc {
+  display: grid;
+  gap: 8px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.cxa-know-doc li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: #fff;
+  border: 1px solid rgba(215, 91, 132, 0.18);
+  border-radius: 14px;
+  padding: 11px 14px;
+  font-size: 12.5px;
+  line-height: 2;
+  color: var(--cxa-ink);
+  box-shadow: 0 12px 24px -22px rgba(169, 52, 92, 0.5);
+}
+.cxa-know-doc li svg { flex: none; width: 15px; height: 15px; margin-top: 5px; color: var(--cxa-rose); }
+
+@media (max-width: 560px) {
+  .cxa-hwin { padding: 14px; }
+  .cxa-hwin-card { border-radius: 22px; padding: 16px 16px 14px; }
+  .cxa-hwin-top { flex-direction: column-reverse; }
+  .cxa-hwin-close { align-self: flex-start; }
+  .cxa-hwin-row { padding: 10px 13px; font-size: 12px; }
+  .cxa-know-tabs { grid-template-columns: 1fr; }
+  .cxa-know-grid { grid-template-columns: 1fr; gap: 10px; }
+  .cxa-know-pill { min-height: 48px; font-size: 12.5px; }
+}
